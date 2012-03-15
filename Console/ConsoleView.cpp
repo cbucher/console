@@ -22,6 +22,7 @@
 //CBitmap	ConsoleView::m_bmpText;
 
 CFont ConsoleView::m_fontText;
+CFont ConsoleView::m_fontTextHigh;
 
 int ConsoleView::m_nCharHeight(0);
 int ConsoleView::m_nCharWidth(0);
@@ -1085,6 +1086,7 @@ void ConsoleView::SetAppActiveStatus(bool bAppActive)
 void ConsoleView::RecreateFont()
 {
 	if (!m_fontText.IsNull()) m_fontText.DeleteObject();
+	if (!m_fontTextHigh.IsNull()) m_fontTextHigh.DeleteObject();
 	if (!CreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.strName))
 	{
 		CreateFont(wstring(L"Courier New"));
@@ -1507,6 +1509,7 @@ void ConsoleView::CreateOffscreenBitmap(CDC& cdc, const CRect& rect, CBitmap& bi
 bool ConsoleView::CreateFont(const wstring& strFontName)
 {
 	if (!m_fontText.IsNull()) return true;// m_fontText.DeleteObject();
+	if (!m_fontTextHigh.IsNull()) return true;// m_fontTextHigh.DeleteObject();
 
   CDC dcText(::CreateCompatibleDC(NULL));
 
@@ -1534,6 +1537,21 @@ bool ConsoleView::CreateFont(const wstring& strFontName)
 		byFontQuality,
 		DEFAULT_PITCH,
 		strFontName.c_str());
+	m_fontTextHigh.CreateFont(
+		-::MulDiv(m_appearanceSettings.fontSettings.dwSize , m_dcText.GetDeviceCaps(LOGPIXELSY), 72),
+		0,
+		0,
+		0,
+		m_appearanceSettings.fontSettings.bBold ? 0 : FW_BOLD,
+		m_appearanceSettings.fontSettings.bItalic,
+		FALSE,
+		FALSE,
+ 		DEFAULT_CHARSET,
+		OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS,
+		byFontQuality,
+		DEFAULT_PITCH,
+		strFontName.c_str());
 
 	TEXTMETRIC	textMetric;
 
@@ -1542,6 +1560,7 @@ bool ConsoleView::CreateFont(const wstring& strFontName)
 	{
 		TRACE(L"/!\\ can't use %s font\n", strFontName.c_str());
 		if (!m_fontText.IsNull()) m_fontText.DeleteObject();
+		if (!m_fontTextHigh.IsNull()) m_fontTextHigh.DeleteObject();
 		return false;
 	}
 
@@ -1850,6 +1869,8 @@ void ConsoleView::RepaintText(CDC& dc)
 	DWORD dwOffset		= 0;
 	
 	WORD attrBG;
+	bool	lastFontHigh = false;
+	dc.SelectFont(m_fontText);
 
 	// stuff used for caching
 	int			nBkMode		= TRANSPARENT;
@@ -1891,6 +1912,22 @@ void ConsoleView::RepaintText(CDC& dc)
 
 		crTxtColor		= m_appearanceSettings.fontSettings.bUseColor ? m_appearanceSettings.fontSettings.crFontColor : m_consoleSettings.consoleColors[m_screenBuffer[dwOffset].charInfo.Attributes & 0xF];
 		dc.SetTextColor(crTxtColor);
+		if (m_screenBuffer[dwOffset].charInfo.Attributes & 0x8)
+		{
+			if (!lastFontHigh)
+			{
+				dc.SelectFont(m_fontTextHigh);
+				lastFontHigh = true;
+			}
+		}
+		else
+		{
+			if (lastFontHigh)
+			{
+				dc.SelectFont(m_fontText);
+				lastFontHigh = false;
+			}
+		}
 
 		strText		= m_screenBuffer[dwOffset].charInfo.Char.UnicodeChar;
 		m_screenBuffer[dwOffset].changed = false;
@@ -1937,6 +1974,10 @@ void ConsoleView::RepaintText(CDC& dc)
 				bTextOut = true;
 			}
 
+			if (m_screenBuffer[dwOffset].charInfo.Attributes & 0x8) {
+				bTextOut = true;
+			}
+
 			if (bTextOut)
 			{
 				CRect textOutRect(dwX, dwY, dwX+m_nCharWidth*nCharWidths, dwY+m_nCharHeight);
@@ -1947,6 +1988,18 @@ void ConsoleView::RepaintText(CDC& dc)
 				dc.SetBkMode(nBkMode);
 				dc.SetBkColor(crBkColor);
 				dc.SetTextColor(crTxtColor);
+				if (m_screenBuffer[dwOffset].charInfo.Attributes & 0x8) {
+					if (!lastFontHigh) {
+						dc.SelectFont(m_fontTextHigh);
+						lastFontHigh = true;
+					}
+				}
+				else {
+					if (lastFontHigh) {
+						dc.SelectFont(m_fontText);
+						lastFontHigh = false;
+					}
+				}
 
 				strText		= m_screenBuffer[dwOffset].charInfo.Char.UnicodeChar;
 				m_screenBuffer[dwOffset].changed = false;
@@ -1980,6 +2033,8 @@ void ConsoleView::RepaintTextChanges(CDC& dc)
   //TRACE(L"ConsoleView::RepaintTextChanges\n");
   DWORD dwY      = m_nHInsideBorder;
   DWORD dwOffset = 0;
+  bool	lastFontHigh = false;
+  dc.SelectFont(m_fontText);
 
   MutexLock bufferLock(m_consoleHandler.m_bufferMutex);
 
@@ -2208,6 +2263,23 @@ void ConsoleView::RowTextOut(CDC& dc, DWORD dwRow)
 
     // compare foreground color
     COLORREF colorFG2 = m_appearanceSettings.fontSettings.bUseColor ? m_appearanceSettings.fontSettings.crFontColor : m_consoleSettings.consoleColors[m_screenBuffer[dwOffset].charInfo.Attributes & 0xF];
+	if (m_screenBuffer[dwOffset].charInfo.Attributes & 0x8)
+	{
+		if (!lastFontHigh)
+		{
+			dc.SelectFont(m_fontTextHigh);
+			lastFontHigh = true;
+		}
+	}
+	else
+	{
+		if (lastFontHigh)
+		{
+			dc.SelectFont(m_fontText);
+			lastFontHigh = false;
+		}
+	}
+
     if( dwFGWidth == 0 )
     {
       colorFG   = colorFG2;
