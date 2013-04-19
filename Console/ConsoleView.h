@@ -239,6 +239,7 @@ private:
   /*static*/ CBitmap    m_bmpText;
 
   static CFont          m_fontText;
+  static CFont			m_fontTextHigh;
 
   static int            m_nCharHeight;
   static int            m_nCharWidth;
