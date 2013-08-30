@@ -405,7 +405,7 @@ LRESULT ConsoleView::OnMouseWheel(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*
       else
       {
         // scroll lines
-        UINT uScrollAmount;
+        UINT uScrollAmount = 3;
         if (!SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &uScrollAmount, 0))
           uScrollAmount = 3;
         nScrollDelta *= static_cast<int>(uScrollAmount);
@@ -1231,11 +1231,11 @@ void ConsoleView::SetTitle(const CString& strTitle)
 	if (m_strUser.GetLength() > 0)
 		if (m_boolNetOnly)
 		{
-			title.Format(L"{%s} %s", m_strUser, strTitle);
+			title.Format(L"{%s} %s", static_cast<LPCTSTR>(m_strUser), static_cast<LPCTSTR>(strTitle));
 		}
 		else
 		{
-			title.Format(L"[%s] %s", m_strUser, strTitle);
+			title.Format(L"[%s] %s", static_cast<LPCTSTR>(m_strUser), static_cast<LPCTSTR>(strTitle));
 		}
 
 	m_strTitle = title;
@@ -2806,11 +2806,11 @@ void ConsoleView::RedrawCharOnCursor(CDC& dc)
 
   CRect                      rectCursor;
   CHAR_INFO &                charInfo = m_screenBuffer[dwOffset].charInfo;
-  int                      nCharWidth = (charInfo.Attributes & COMMON_LVB_LEADING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
+  int                      nCharWidthLeading = (charInfo.Attributes & COMMON_LVB_LEADING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
 
   rectCursor.left   = (consoleInfo->csbi.dwCursorPosition.X - consoleInfo->csbi.srWindow.Left) * m_nCharWidth + m_nVInsideBorder;
   rectCursor.top    = (consoleInfo->csbi.dwCursorPosition.Y - consoleInfo->csbi.srWindow.Top) * m_nCharHeight + m_nHInsideBorder;
-  rectCursor.right  = rectCursor.left + nCharWidth;
+  rectCursor.right  = rectCursor.left + nCharWidthLeading;
   rectCursor.bottom = rectCursor.top + m_nCharHeight;
 
   CBrush brush(::CreateSolidBrush(m_tabData->crCursorColor));
@@ -2824,17 +2824,17 @@ void ConsoleView::RedrawCharOnCursor(CDC& dc)
   if( g_settingsHandler->GetAppearanceSettings().fontSettings.bItalic && 
       (consoleInfo->csbi.dwCursorPosition.X - consoleInfo->csbi.srWindow.Left) > 0 )
   {
-    CHAR_INFO & charInfo = m_screenBuffer[dwOffset - 1].charInfo;
-    int       nCharWidth = (charInfo.Attributes & COMMON_LVB_TRAILING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
+    CHAR_INFO & charInfoLeft = m_screenBuffer[dwOffset - 1].charInfo;
+    int       nCharWidthTrailing = (charInfoLeft.Attributes & COMMON_LVB_TRAILING_BYTE)? m_nCharWidth * 2 : m_nCharWidth;
 
-    colorBG = consoleColors[(charInfo.Attributes & 0xF0) >> 4];
+    colorBG = consoleColors[(charInfoLeft.Attributes & 0xF0) >> 4];
 
     dc.SetTextColor(colorBG);
     dc.ExtTextOut(
-      rectCursor.left - nCharWidth, rectCursor.top,
+      rectCursor.left - nCharWidthTrailing, rectCursor.top,
       ETO_CLIPPED,
       &rectCursor,
-      &charInfo.Char.UnicodeChar, 1,
+      &charInfoLeft.Char.UnicodeChar, 1,
       nullptr);
   }
 

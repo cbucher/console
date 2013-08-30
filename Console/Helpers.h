@@ -56,12 +56,12 @@ class CriticalSection
 
 	public:
 
-		void Enter()
+		_Acquires_lock_(this->m_cs) void Enter()
 		{
 			::EnterCriticalSection(&m_cs);			
 		}
 		
-		void Leave()
+		_Releases_lock_(this->m_cs) void Leave()
 		{
 			::LeaveCriticalSection(&m_cs);			
 		}

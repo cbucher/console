@@ -534,8 +534,12 @@ public:
       hText = ::GlobalAlloc(GMEM_MOVEABLE, size);
       if( hText )
       {
-        ::CopyMemory(::GlobalLock(hText), p, size);
-        ::GlobalUnlock(hText);
+        LPVOID lpTextLock = ::GlobalLock(hText);
+        if ( lpTextLock )
+        {
+          ::CopyMemory(lpTextLock, p, size);
+          ::GlobalUnlock(hText);
+        }
       }
     }
     ~Global(void)
@@ -724,7 +728,7 @@ public:
     else if( wc <= 0x7f )  strRowRtfRef += p->Char.AsciiChar;
     else
     {
-      _snprintf_s(szDummy, sizeof(szDummy), _TRUNCATE, "\\u%d?", wc);
+      _snprintf_s(szDummy, sizeof(szDummy), _TRUNCATE, "\\u%u?", wc);
       strRowRtfRef += szDummy;
     }
     sizeRowLen ++;

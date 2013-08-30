@@ -931,7 +931,7 @@ public:
 		return m_hWndActive;
 	}
 
-	virtual void OnFinalMessage(HWND /*hWnd*/)
+	virtual void OnFinalMessage(_In_ HWND /*hWnd*/)
 	{
 		// TODO: Have support both for "new"ing an
 		//  instance of this class, or having

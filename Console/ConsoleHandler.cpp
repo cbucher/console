@@ -281,11 +281,6 @@ bool ConsoleHandler::StartShellProcess
 
 	if (strUsername.length() > 0)
 	{
-	STARTUPINFO si;
-	::ZeroMemory(&si, sizeof(STARTUPINFO));
-
-	si.cb			= sizeof(STARTUPINFO);
-
 		if( !::CreateProcessWithLogonW(
 			strUsername.c_str(), 
 			strDomain.length() > 0 ? strDomain.c_str() : NULL,
