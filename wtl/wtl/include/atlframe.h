@@ -2804,8 +2804,8 @@ public:
 		const _AtlUpdateUIMap* pMap = pT->GetUpdateUIMap();
 		m_pUIMap = pMap;
 		ATLASSERT(m_pUIMap != NULL);
-		int nCount;
-		for(nCount = 1; pMap->m_nID != (WORD)-1; nCount++)
+		int nCount = 1;
+		for(; pMap->m_nID != (WORD)-1; nCount++)
 			pMap++;
 
 		// check for duplicates (debug only)

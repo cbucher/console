@@ -535,7 +535,7 @@ public:
 
 			T* pT = static_cast<T*>(this);
 			pT;   // avoid level 4 warning
-			TCHAR szString[pT->_nMaxMenuItemTextLength];
+			TCHAR szString[pT->_nMaxMenuItemTextLength] = L"";
 			for(int i = 0; i < nItems; i++)
 			{
 				CMenuItemInfo mii;
@@ -1287,7 +1287,7 @@ public:
 
 			T* pT = static_cast<T*>(this);
 			pT;   // avoid level 4 warning
-			TCHAR szString[pT->_nMaxMenuItemTextLength];
+			TCHAR szString[pT->_nMaxMenuItemTextLength] = L"";
 			BOOL bRet = FALSE;
 			for(int i = 0; i < menuPopup.GetMenuItemCount(); i++)
 			{
