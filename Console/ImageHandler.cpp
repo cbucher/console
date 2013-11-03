@@ -218,7 +218,7 @@ bool ImageHandler::GetDesktopImageData(ImageData& imageData)
 	if (keyColors.QueryStringValue(L"Background", strBackground.GetBuffer(dwDataSize), &dwDataSize) != ERROR_SUCCESS)
 	{
 		strBackground.ReleaseBuffer();
-		return std::shared_ptr<BackgroundImage>();
+		return static_cast<bool>(std::shared_ptr<BackgroundImage>());
 	}
 	strBackground.ReleaseBuffer();
 
