@@ -299,6 +299,7 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
     }
   }
 
+
   if ( bBigIcon )
   {
     return static_cast<HICON>(
@@ -306,9 +307,9 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
         ::GetModuleHandle(NULL),
         MAKEINTRESOURCE(IDR_MAINFRAME),
         IMAGE_ICON,
-        0,
-        0,
-        LR_DEFAULTCOLOR | LR_DEFAULTSIZE));
+		::GetSystemMetrics(SM_CXICON),
+		::GetSystemMetrics(SM_CYICON),
+        LR_DEFAULTCOLOR));
   }
   else
   {
@@ -317,8 +318,8 @@ HICON Helpers::LoadTabIcon(bool bBigIcon, bool bUseDefaultIcon, const wstring& s
         ::GetModuleHandle(NULL),
         MAKEINTRESOURCE(IDR_MAINFRAME),
         IMAGE_ICON,
-        16,
-        16,
+		::GetSystemMetrics(SM_CXSMICON),
+		::GetSystemMetrics(SM_CYSMICON),
         LR_DEFAULTCOLOR));
   }
 }
