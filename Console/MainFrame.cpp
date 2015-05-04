@@ -4389,6 +4389,59 @@ LRESULT MainFrame::OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWnd
 
 /////////////////////////////////////////////////////////////////////////////
 
+LRESULT MainFrame::OnOpenExplorer(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	if (!m_activeTabView) return 0;
+	std::shared_ptr<ConsoleView> consoleView = m_activeTabView->GetActiveConsole(_T(__FUNCTION__));
+	if (!consoleView) return 0;
+
+	std::wstring strCmdLine;
+
+	try
+	{
+		std::wstring currDirectory = consoleView->GetConsoleHandler().GetCurrentDirectory();
+		strCmdLine = L"explorer " + currDirectory;
+
+		// setup the startup info struct
+		STARTUPINFO si;
+		::ZeroMemory(&si, sizeof(STARTUPINFO));
+		si.cb = sizeof(STARTUPINFO);
+
+		PROCESS_INFORMATION pi;
+
+		if (!::CreateProcess(
+			NULL,
+			const_cast<wchar_t*>(Helpers::ExpandEnvironmentStrings(strCmdLine).c_str()),
+			NULL,
+			NULL,
+			FALSE,
+			0,
+			NULL,
+			NULL,
+			&si,
+			&pi))
+		{
+			Win32Exception::ThrowFromLastError("CreateProcess");
+		}
+
+		::CloseHandle(pi.hProcess);
+		::CloseHandle(pi.hThread);
+	}
+	catch (std::exception& err)
+	{
+		MessageBox(
+			boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_CANT_OPEN_EXPLORER)) % strCmdLine % err.what()).c_str(),
+			L"Error",
+			MB_OK | MB_ICONERROR);
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 LRESULT MainFrame::OnGetMinMaxInfo(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
 {
   if( g_settingsHandler->GetAppearanceSettings().stylesSettings.bCaption ) return 0;

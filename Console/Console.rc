@@ -810,6 +810,7 @@ BEGIN
     POPUP "View"
     BEGIN
         MENUITEM "&Console Window",             ID_VIEW_CONSOLE
+        MENUITEM "Open Explorer Here",          ID_OPEN_EXPLORER
         MENUITEM "Font Information...",         ID_FONT_INFO
         MENUITEM SEPARATOR
         MENUITEM "&Menu",                       ID_VIEW_MENU
@@ -855,6 +856,7 @@ BEGIN
         MENUITEM SEPARATOR
 
         MENUITEM "&Console Window",             ID_VIEW_CONSOLE
+        MENUITEM "Open Explorer Here",			ID_OPEN_EXPLORER
 
     END
 END
@@ -1170,6 +1172,7 @@ BEGIN
     IDS_ERR_CANT_START_SHELL_AS_ADMIN "Unable to start %1% %2% as administrator (reason:%3%)!"
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Unable to get the elevation level (reason:%1%)!"
     IDS_ERR_TAB_CREATE_FAILED "Failed to open %s tab!\nThe process %s could still be running (use the Task Manager to find it and end it)"
+    IDS_ERR_CANT_OPEN_EXPLORER "Unable to open explorer %1% (reason:%2%)!"
 END
 
 STRINGTABLE
