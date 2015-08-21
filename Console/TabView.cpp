@@ -507,6 +507,38 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 
 /////////////////////////////////////////////////////////////////////////////
 
+void TabView::SwapSplit()
+{
+	if( multisplitClass::tree.isSplitBar() )
+	{
+		CMultiSplitPane& tree = multisplitClass::tree;
+
+		CMultiSplitPane* pane0 = tree.pane0;
+		CMultiSplitPane* pane1 = tree.pane1;
+		CMultiSplitPane* focus = multisplitClass::defaultFocusPane;
+
+		tree.pane0 = pane1;
+		tree.pane1 = pane0;
+
+		tree.pane0->x = pane0->x;
+		tree.pane0->y = pane0->y;
+		tree.pane1->x = pane1->x;
+		tree.pane1->y = pane1->x;
+
+		tree.splitRatio = 100 - tree.splitRatio;
+
+		multisplitClass::SetDefaultFocusPane(focus);
+		multisplitClass::UpdateLayout();
+
+		// CRect clientRect(0, 0, 0, 0);
+		// AdjustRectAndResize(ADJUSTSIZE_WINDOW, clientRect, WMSZ_BOTTOM);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 bool TabView::CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed)
 {
 	boolTabClosed = false;

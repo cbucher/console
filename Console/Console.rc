@@ -640,6 +640,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ 
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
+        MENUITEM "S&wap Split",                 ID_SPLIT_SWAP
         MENUITEM "Clone in new &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Settings...",                ID_EDIT_SETTINGS

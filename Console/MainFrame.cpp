@@ -2216,6 +2216,10 @@ LRESULT MainFrame::OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 		case ID_SPLIT_VERT:
 			m_activeTabView->Split(CMultiSplitPane::VERTICAL);
 			break;
+
+		case ID_SPLIT_SWAP:
+			m_activeTabView->SwapSplit();
+			break;
 		}
 	}
 
