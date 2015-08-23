@@ -346,6 +346,7 @@
 #define ID_FONT_INFO                    2935
 #define ID_PASTE_SELECTION              2936
 #define ID_SPLIT_SWAP                   2937
+#define ID_SPLIT_SWAP_PREVIOUS          2938
 
 #define IDC_DUMP_BUFFER                 3000
 

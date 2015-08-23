@@ -2220,6 +2220,10 @@ LRESULT MainFrame::OnSplit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOO
 		case ID_SPLIT_SWAP:
 			m_activeTabView->SwapSplit();
 			break;
+
+        case ID_SPLIT_SWAP_PREVIOUS:
+			m_activeTabView->SwapSplitWithPrevious();
+			break;
 		}
 	}
 
