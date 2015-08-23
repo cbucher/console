@@ -449,6 +449,8 @@
 #define IDS_EXTERNAL_COMMAND_10         6085
 #define IDS_GLOBAL_ACTIVATE             6086
 #define IDS_PASTE_SELECTION             6087
+#define IDS_SPLIT_SWAP                  6088
+#define IDS_SPLIT_SWAP_PREVIOUS         6089
 
 #define IDS_MOUSE_COPY                  7000
 #define IDS_MOUSE_SELECT                7001
