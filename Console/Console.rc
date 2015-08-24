@@ -624,6 +624,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Attach Consoles",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
+        MENUITEM "Save Session",                ID_SAVE_SESSION
+        MENUITEM "Load Session",                ID_LOAD_SESSION
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
     POPUP "Edit"

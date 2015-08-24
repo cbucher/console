@@ -308,6 +308,8 @@
 #define ID_NEW_TAB_1                    2000
 #define ID_SWITCH_TAB_1                 2100
 #define ID_EXTERNAL_COMMAND_1           2200
+#define ID_SAVE_SESSION                 2210
+#define ID_LOAD_SESSION                 2211
 #define ID_NEXT_TAB                     2900
 #define ID_PREV_TAB                     2901
 #define ID_RENAME_TAB_OK                2902

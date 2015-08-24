@@ -11,6 +11,11 @@
 #include "MainFrame.h"
 #include "JumpList.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/info_parser.hpp>
+#include <boost/foreach.hpp>
+namespace pt = boost::property_tree;
+
 //////////////////////////////////////////////////////////////////////////////
 
 
@@ -3093,7 +3098,7 @@ void MainFrame::CloseTab(CTabViewTabItem* pTabItem)
 
 //////////////////////////////////////////////////////////////////////////////
 
-void MainFrame::CloseTab(HWND hwndTabView)
+void MainFrame::CloseTab(HWND hwndTabView, bool closeApp)
 {
   MutexLock viewMapLock(m_tabsMutex);
   TabViewMap::iterator it = m_tabs.find(hwndTabView);
@@ -3113,7 +3118,7 @@ void MainFrame::CloseTab(HWND hwndTabView)
     ShowTabs(false);
   }
 
-  if (m_tabs.empty()) PostMessage(WM_CLOSE);
+  if (closeApp && m_tabs.empty()) PostMessage(WM_CLOSE);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -4462,6 +4467,60 @@ LRESULT MainFrame::OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWnd
 	}
 
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnSaveSession(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+    CFileDialog dialog = CFileDialog(false);
+    if( dialog.DoModal() != IDOK )
+        return 0;
+
+    string filename = CStringA(dialog.m_szFileName);
+
+    pt::wptree tree;
+    for(int i = 0, n = m_TabCtrl.GetItemCount(); i < n; ++i)
+    {
+        wstringstream key;
+        key << "tabs." << i;
+        auto it = m_tabs.find(m_TabCtrl.GetItem(i)->GetTabView());
+        if( it != m_tabs.end() )
+            it->second->SaveSession(tree, key.str());
+    }
+    pt::write_info(filename, tree);
+    return 0;
+}
+
+LRESULT MainFrame::OnLoadSession(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+    CFileDialog dialog = CFileDialog(true);
+    if( dialog.DoModal() != IDOK )
+        return 0;
+
+    string filename = CStringA(dialog.m_szFileName);
+
+    for(auto it = m_tabs.begin(); it != m_tabs.end(); ++it)
+    {
+        CloseTab(it->first, false);
+    }
+
+    pt::wptree tree;
+    pt::read_info(filename, tree);
+    int i = 0;
+    BOOST_FOREACH(pt::wptree::value_type &v, tree.get_child(L"tabs")) 
+    {
+        wstringstream key;
+        key << L"tabs." << v.first.data();
+
+        CreateNewConsole(i, tree.get(key.str() + L".title", L""), tree.get(key.str() + L".currentDirectory", L""));
+
+        m_activeTabView->LoadSession(tree, key.str());
+    }
+
+    return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////

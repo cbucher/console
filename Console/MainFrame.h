@@ -183,6 +183,8 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_ALL_TABS_LEFT     , OnFileCloseTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_ALL_TABS_RIGHT    , OnFileCloseTab)
 			COMMAND_ID_HANDLER(ID_ATTACH_CONSOLES              , OnAttachConsoles)
+			COMMAND_ID_HANDLER(ID_SAVE_SESSION, OnSaveSession)
+			COMMAND_ID_HANDLER(ID_LOAD_SESSION, OnLoadSession)
 			COMMAND_ID_HANDLER(ID_APP_EXIT, OnFileExit)
 			COMMAND_ID_HANDLER(ID_EDIT_CLEAR, OnEditClear)
 			COMMAND_ID_HANDLER(ID_EDIT_COPY, OnEditCopy)
@@ -327,11 +329,14 @@ class MainFrame
 
 		LRESULT OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
+        LRESULT OnSaveSession(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+        LRESULT OnLoadSession(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+
 	public:
 
 		void AdjustWindowRect(CRect& rect);
 		void AdjustWindowSize(ADJUSTSIZE as);
-		void CloseTab(HWND hwndTabView);
+		void CloseTab(HWND hwndTabView, bool closeApp = true);
 		void SetActiveConsole(HWND hwndTabView, HWND hwndConsoleView);
 		void PostMessageToConsoles(UINT Msg, WPARAM wParam, LPARAM lParam);
 		void WriteConsoleInputToConsoles(KEY_EVENT_RECORD* pkeyEvent);

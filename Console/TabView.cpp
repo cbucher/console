@@ -473,13 +473,11 @@ void TabView::AdjustRectAndResize(ADJUSTSIZE as, CRect& clientRect, DWORD dwResi
 
 /////////////////////////////////////////////////////////////////////////////
 
-void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
+void TabView::Split(CMultiSplitPane::SPLITTYPE splitType, wstring strCurrentDirectory)
 {
-	std::wstring strCurrentDirectory(L"");
-
 	std::shared_ptr<ConsoleView> activeConsoleView = GetActiveConsole(_T(__FUNCTION__));
 
-	if( g_settingsHandler->GetBehaviorSettings2().cloneSettings.bUseCurrentDirectory )
+	if( strCurrentDirectory == L"" && g_settingsHandler->GetBehaviorSettings2().cloneSettings.bUseCurrentDirectory )
 	{
 		strCurrentDirectory = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
 	}
@@ -870,3 +868,45 @@ void TabView::Diagnose(HANDLE hFile)
 		Helpers::WriteLine(hFile, console->second->GetConsoleHandler().GetFontInfo());
 	}
 }
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+void TabView::SaveSession(pt::wptree& prop, wstring prefix, CMultiSplitPane* pane)
+{
+    prop.put(prefix + L".title", (LPCTSTR) m_strTitle);
+
+    if( pane == nullptr )
+        pane = &(multisplitClass::tree);
+
+    if( pane->isSplitBar() )
+    {
+        prop.put(prefix + L".isSplit", true);
+        prop.put(prefix + L".splitType", static_cast<int>(pane->splitType));
+        prop.put(prefix + L".splitRatio", pane->splitRatio);
+        prop.put(prefix + L".currentDirectory", m_views[pane->pane0->window]->GetConsoleHandler().GetCurrentDirectory());
+        SaveSession(prop, prefix + L".pane0", pane->pane0);
+        SaveSession(prop, prefix + L".pane1", pane->pane1);
+    }
+    else
+    {
+        prop.put(prefix + L".isSplit", false);
+        prop.put(prefix + L".currentDirectory", m_views[pane->window]->GetConsoleHandler().GetCurrentDirectory());
+    }
+}
+
+void TabView::LoadSession(pt::wptree& prop, wstring prefix, CMultiSplitPane* parent)
+{
+    if( parent == nullptr )
+        parent = &(multisplitClass::tree);
+
+    if( prop.get<bool>(prefix + L".isSplit") )
+    {
+        int splitType = prop.get(prefix + L".splitType", static_cast<int>(CMultiSplitPane::NONE));
+        wstring currentDirectory = prop.get(prefix + L".pane1.currentDirectory", L"");
+        if( splitType == static_cast<int>(CMultiSplitPane::VERTICAL) || splitType == static_cast<int>(CMultiSplitPane::HORIZONTAL) )
+            Split(static_cast<CMultiSplitPane::SPLITTYPE>(splitType), currentDirectory);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////
