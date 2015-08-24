@@ -900,12 +900,21 @@ void TabView::LoadSession(pt::wptree& prop, wstring prefix, CMultiSplitPane* par
     if( parent == nullptr )
         parent = &(multisplitClass::tree);
 
-    if( prop.get<bool>(prefix + L".isSplit") )
+    if( prop.get(prefix + L".isSplit", false) )
     {
         int splitType = prop.get(prefix + L".splitType", static_cast<int>(CMultiSplitPane::NONE));
         wstring currentDirectory = prop.get(prefix + L".pane1.currentDirectory", L"");
         if( splitType == static_cast<int>(CMultiSplitPane::VERTICAL) || splitType == static_cast<int>(CMultiSplitPane::HORIZONTAL) )
             Split(static_cast<CMultiSplitPane::SPLITTYPE>(splitType), currentDirectory);
+
+        CMultiSplitPane* nextParent = multisplitClass::defaultFocusPane->parent;
+        if( nextParent )
+        {
+            if ( prop.get<bool>(prefix + L".pane0.isSplit", false) )
+                LoadSession(prop, prefix + L".pane0", nextParent->pane0);
+            if ( prop.get<bool>(prefix + L".pane1.isSplit", false) )
+                LoadSession(prop, prefix + L".pane1", nextParent->pane1);
+        }
     }
 }
 
