@@ -3,6 +3,7 @@
 //      are changed infrequently
 //
 
+#pragma once
 
 // Change these values to use different versions
 /*
