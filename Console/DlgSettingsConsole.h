@@ -25,6 +25,8 @@ class DlgSettingsConsole
 			DDX_TEXT(IDC_SHELL, m_strShell)
 			DDX_TEXT(IDC_INIT_DIR, m_strInitialDir)
 			DDX_CHECK(IDC_CHECK_START_HIDDEN, m_consoleSettings.bStartHidden)
+			DDX_CHECK(IDC_CHECK_AUTO_SAVE_SESSION, m_consoleSettings.bAutoSaveSession)
+			DDX_CHECK(IDC_CHECK_AUTO_LOAD_SESSION, m_consoleSettings.bAutoLoadSession)
 			DDX_UINT(IDC_CHANGE_REFRESH, m_consoleSettings.dwChangeRefreshInterval)
 			DDX_UINT(IDC_REFRESH, m_consoleSettings.dwRefreshInterval)
 			DDX_UINT_RANGE(IDC_ROWS, m_consoleSettings.dwRows, static_cast<DWORD>(MIN_WINDOW_ROWS), static_cast<DWORD>(MAX_WINDOW_ROWS))

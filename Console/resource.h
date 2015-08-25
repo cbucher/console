@@ -304,10 +304,14 @@
 #define IDC_ENV_VARIABLE                1230
 #define IDC_ENV_VALUE                   1231
 #define IDC_CHECK_HIDE_WHEN_INACTIVE    1232
+#define IDC_CHECK_AUTO_SAVE_SESSION     1235
+#define IDC_CHECK_AUTO_LOAD_SESSION     1236
 
 #define ID_NEW_TAB_1                    2000
 #define ID_SWITCH_TAB_1                 2100
 #define ID_EXTERNAL_COMMAND_1           2200
+#define ID_SAVE_SESSION                 2210
+#define ID_LOAD_SESSION                 2211
 #define ID_NEXT_TAB                     2900
 #define ID_PREV_TAB                     2901
 #define ID_RENAME_TAB_OK                2902
@@ -447,6 +451,8 @@
 #define IDS_EXTERNAL_COMMAND_10         6085
 #define IDS_GLOBAL_ACTIVATE             6086
 #define IDS_PASTE_SELECTION             6087
+#define IDS_LOAD_SESSION                6088
+#define IDS_SAVE_SESSION                6089
 
 #define IDS_MOUSE_COPY                  7000
 #define IDS_MOUSE_SELECT                7001

@@ -2,6 +2,9 @@
 
 #include "ConsoleView.h"
 
+#include <boost/property_tree/ptree.hpp>
+namespace pt = boost::property_tree;
+
 typedef map<HWND, std::shared_ptr<ConsoleView> >	ConsoleViewMap;
 
 class TabView
@@ -66,7 +69,7 @@ public:
   void AdjustRectAndResize(ADJUSTSIZE as, CRect& clientRect, DWORD dwResizeWindowEdge);
   void GetRect(CRect& clientRect);
 
-  void Split(CMultiSplitPane::SPLITTYPE);
+  void Split(CMultiSplitPane::SPLITTYPE, wstring strCurrentDirectory = L"");
   bool CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed);
   void SwitchView(WORD wID);
   void ResizeView(WORD wID);
@@ -83,6 +86,9 @@ public:
   inline size_t GetViewsCount(void) const { return m_views.size(); }
 
 	void Diagnose(HANDLE hFile);
+
+  void SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* pane = nullptr, bool isTab = true); 
+  void LoadSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* parent = nullptr);
 
 private:
 	HWND CreateNewConsole(ConsoleViewCreate* consoleViewCreate, const wstring& strCmdLineInitialDir = wstring(L""), const wstring& strCmdLineInitialCmd = wstring(L""), DWORD dwBasePriority = ULONG_MAX);
