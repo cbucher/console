@@ -216,7 +216,8 @@ LRESULT MainFrame::CreateInitialTabs
 	const vector<wstring>& startupDirs,
 	const vector<DWORD>&   basePriorities,
 	int nMultiStartSleep,
-	std::wstring strWorkingDir
+	std::wstring strWorkingDir,
+    bool allowEmpty
 )
 {
 	bool bAtLeastOneStarted = false;
@@ -227,26 +228,31 @@ LRESULT MainFrame::CreateInitialTabs
 	consoleViewCreate.type = ConsoleViewCreate::CREATE;
 	consoleViewCreate.u.userCredentials = nullptr;
 
-	// create initial console window(s)
+    // create initial console window(s)
 	if (startupTabs.size() == 0)
 	{
-		if( !tabSettings.tabDataVector.empty() )
-		{
-			wstring strStartupTabTitle(L"");
-			wstring strStartupDir(L"");
-			wstring strStartupCmd(L"");
+        if (!allowEmpty)
+        {
+            if( !tabSettings.tabDataVector.empty() )
+            {
+                wstring strStartupTabTitle(L"");
+                wstring strStartupDir(L"");
+                wstring strStartupCmd(L"");
 
-			if (strStartupTabTitle.size() > 0) strStartupTabTitle = startupTabTitles[0];
-			if (startupDirs.size() > 0) strStartupDir = startupDirs[0];
-			if (startupCmds.size() > 0) strStartupCmd = startupCmds[0];
+                if (strStartupTabTitle.size() > 0) strStartupTabTitle = startupTabTitles[0];
+                if (startupDirs.size() > 0) strStartupDir = startupDirs[0];
+                if (startupCmds.size() > 0) strStartupCmd = startupCmds[0];
 
-			bAtLeastOneStarted = CreateNewConsole(
-				0,
-				strStartupTabTitle,
-				strStartupDir.empty() && tabSettings.tabDataVector[0]->strInitialDir.empty() ? strWorkingDir : strStartupDir,
-				strStartupCmd,
-				basePriorities.size() > 0? basePriorities[0] : tabSettings.tabDataVector[0]->dwBasePriority);
-		}
+                bAtLeastOneStarted = CreateNewConsole(
+                    0,
+                    strStartupTabTitle,
+                    strStartupDir.empty() && tabSettings.tabDataVector[0]->strInitialDir.empty() ? strWorkingDir : strStartupDir,
+                    strStartupCmd,
+                    basePriorities.size() > 0? basePriorities[0] : tabSettings.tabDataVector[0]->dwBasePriority);
+            }
+        }
+        else
+            bAtLeastOneStarted = true;
 	}
 	else
 	{
@@ -275,6 +281,7 @@ LRESULT MainFrame::CreateInitialTabs
 		}
 	}
 
+    OutputDebugString(bAtLeastOneStarted ? L"bAtLeastOneStarted is true" : L"bAtLeastOneStarted is false");
 	return bAtLeastOneStarted ? 0 : -1;
 }
 
@@ -426,7 +433,15 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	CreateTabWindow(m_hWnd, rcDefault, dwTabStyles);
 
-	if (LRESULT created = CreateInitialTabs(m_startupTabs, m_startupTabTitles, m_startupCmds, m_startupDirs, m_priorities, m_nMultiStartSleep, m_strWorkingDir))
+    bool allowEmpty = false;
+    if (g_settingsHandler->GetConsoleSettings().bAutoLoadSession)
+    {
+        wstring autoSaveSessionFile = g_settingsHandler->GetSettingsFileName() + L".cxs";
+        if (PathFileExists(autoSaveSessionFile.c_str()))
+            if (LoadSession(autoSaveSessionFile))
+                allowEmpty = true;
+    }
+	if (LRESULT created = CreateInitialTabs(m_startupTabs, m_startupTabTitles, m_startupCmds, m_startupDirs, m_priorities, m_nMultiStartSleep, m_strWorkingDir, allowEmpty))
 		return created;
 
 	UIAddToolBar(hWndToolBar);
@@ -598,6 +613,11 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 	if (bSaveSettings) g_settingsHandler->SaveSettings();
 
 	SaveSearchMRU();
+
+    if (g_settingsHandler->GetConsoleSettings().bAutoSaveSession)
+    {
+        SaveSession(g_settingsHandler->GetSettingsFileName() + L".cxs");
+    }
 
 	// destroy all views
 	MutexLock viewMapLock(m_tabsMutex);
@@ -4473,53 +4493,60 @@ LRESULT MainFrame::OnExternalCommand(WORD /*wNotifyCode*/, WORD wID, HWND /*hWnd
 
 /////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnSaveSession(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+void MainFrame::SaveSession(const wstring& filename)
 {
-    CFileDialog dialog = CFileDialog(false);
-    if( dialog.DoModal() != IDOK )
-        return 0;
-
-    string filename = CStringA(dialog.m_szFileName);
-
     pt::wptree tree;
     for(int i = 0, n = m_TabCtrl.GetItemCount(); i < n; ++i)
     {
         wstringstream key;
-        key << "tabs." << i;
+        key << L"tabs." << i;
         auto it = m_tabs.find(m_TabCtrl.GetItem(i)->GetTabView());
         if( it != m_tabs.end() )
             it->second->SaveSession(tree, key.str());
     }
-    pt::write_info(filename, tree);
+    wofstream stream(filename);
+    pt::write_info(stream, tree);
+}
+
+LRESULT MainFrame::OnSaveSession(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+    CFileDialog dialog = CFileDialog(false, L"czs", L"session.czs", OFN_OVERWRITEPROMPT, L"ConsoleZ Session\0*.czs\0All Files\0*.*\0");
+    if( dialog.DoModal() != IDOK )
+        return 0;
+    SaveSession(dialog.m_szFileName);
     return 0;
 }
 
-LRESULT MainFrame::OnLoadSession(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+bool MainFrame::LoadSession(const wstring& filename)
 {
-    CFileDialog dialog = CFileDialog(true);
-    if( dialog.DoModal() != IDOK )
-        return 0;
-
-    string filename = CStringA(dialog.m_szFileName);
-
     for(auto it = m_tabs.begin(); it != m_tabs.end(); ++it)
     {
         CloseTab(it->first, false);
     }
 
     pt::wptree tree;
-    pt::read_info(filename, tree);
+    wifstream stream(filename);
+    pt::read_info(stream, tree);
     int i = 0;
     BOOST_FOREACH(pt::wptree::value_type &v, tree.get_child(L"tabs")) 
     {
         wstringstream key;
         key << L"tabs." << v.first.data();
-
-        CreateNewConsole(i, tree.get(key.str() + L".title", L""), tree.get(key.str() + L".currentDirectory", L""));
-
+        int tabIndex = tree.get(key.str() + L".tabIndex", 0) - 1;
+        CreateNewConsole(tabIndex, tree.get(key.str() + L".title", L""), tree.get(key.str() + L".currentDirectory", L""));
         m_activeTabView->LoadSession(tree, key.str());
+        ++i;
     }
 
+    return i > 0;
+}
+
+LRESULT MainFrame::OnLoadSession(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+    CFileDialog dialog = CFileDialog(true, L"czs", NULL, OFN_HIDEREADONLY, L"ConsoleZ Session\0*.czs\0All Files\0*.*\0");
+    if( dialog.DoModal() != IDOK )
+        return 0;
+    LoadSession(dialog.m_szFileName);
     return 0;
 }
 

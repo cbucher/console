@@ -343,6 +343,8 @@ class MainFrame
 		void PasteToConsoles();
 		void SendTextToConsoles(const wchar_t* pszText);
 		bool GetAppActiveStatus(void) const { return this->m_bAppActive; }
+        void SaveSession(const wstring& filename);
+        bool LoadSession(const wstring& filename);
 
 		std::wstring FormatTitle(std::wstring strFormat, TabView * tabView, std::shared_ptr<ConsoleView> consoleView);
 
@@ -400,7 +402,8 @@ class MainFrame
 			const vector<wstring>& startupDirs,
 			const vector<DWORD>&   basePriorities,
 			int nMultiStartSleep,
-			std::wstring strWorkingDir
+			std::wstring strWorkingDir,
+            bool allowEmpty = false
 		);
 		LRESULT OnCopyData(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/);
 

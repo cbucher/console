@@ -87,8 +87,8 @@ public:
 
 	void Diagnose(HANDLE hFile);
 
-  void SaveSession(pt::wptree& prop, wstring prefix, CMultiSplitPane* pane = nullptr); 
-  void LoadSession(pt::wptree& prop, wstring prefix, CMultiSplitPane* parent = nullptr);
+  void SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* pane = nullptr); 
+  void LoadSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* parent = nullptr);
 
 private:
 	HWND CreateNewConsole(ConsoleViewCreate* consoleViewCreate, const wstring& strCmdLineInitialDir = wstring(L""), const wstring& strCmdLineInitialCmd = wstring(L""), DWORD dwBasePriority = ULONG_MAX);

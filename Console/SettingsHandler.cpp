@@ -27,6 +27,8 @@ ConsoleSettings::ConsoleSettings()
 , dwBufferRows(500)
 , dwBufferColumns(0)
 , bStartHidden(false)
+, bAutoSaveSession(false)
+, bAutoLoadSession(false)
 , bSaveSize(false)
 , backgroundTextOpacity(255)
 , dwCursorStyle(0)
@@ -75,6 +77,8 @@ bool ConsoleSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"buffer_rows"), dwBufferRows, 500);
 	XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"buffer_columns"), dwBufferColumns, 0);
 	XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"start_hidden"), bStartHidden, false);
+	XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"auto_save_session"), bAutoSaveSession, false);
+	XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"auto_load_session"), bAutoLoadSession, false);
 	XmlHelper::GetAttribute(pConsoleElement, CComBSTR(L"save_size"), bSaveSize, false);
 
 	// old config compatibility
@@ -145,6 +149,8 @@ bool ConsoleSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	XmlHelper::SetAttribute(pConsoleElement, CComBSTR(L"buffer_rows"), dwBufferRows);
 	XmlHelper::SetAttribute(pConsoleElement, CComBSTR(L"buffer_columns"), dwBufferColumns);
 	XmlHelper::SetAttribute(pConsoleElement, CComBSTR(L"start_hidden"), bStartHidden);
+	XmlHelper::SetAttribute(pConsoleElement, CComBSTR(L"auto_save_session"), bAutoSaveSession);
+	XmlHelper::SetAttribute(pConsoleElement, CComBSTR(L"auto_load_session"), bAutoLoadSession);
 	XmlHelper::SetAttribute(pConsoleElement, CComBSTR(L"save_size"), bSaveSize);
 
 	XmlHelper::SaveColors(pConsoleElement, consoleColors, backgroundTextOpacity);
@@ -209,6 +215,8 @@ ConsoleSettings& ConsoleSettings::operator=(const ConsoleSettings& other)
 	dwBufferRows			= other.dwBufferRows;
 	dwBufferColumns			= other.dwBufferColumns;
 	bStartHidden			= other.bStartHidden;
+	bAutoSaveSession		= other.bAutoSaveSession;
+	bAutoLoadSession		= other.bAutoLoadSession;
 	bSaveSize				= other.bSaveSize;
 
 	::CopyMemory(defaultConsoleColors, other.defaultConsoleColors, sizeof(COLORREF)*16);
@@ -1703,6 +1711,8 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"help",               ID_HELP,                 IDS_HELP                )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"exit",               ID_APP_EXIT,             IDS_APP_EXIT            )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"savesession",        ID_SAVE_SESSION,         IDS_SAVE_SESSION        )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"loadsession",        ID_LOAD_SESSION,         IDS_LOAD_SESSION        )));
 
 	for(WORD i = 0; i < 12; ++i)
 	{
