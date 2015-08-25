@@ -87,7 +87,7 @@ public:
 
 	void Diagnose(HANDLE hFile);
 
-  void SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* pane = nullptr); 
+  void SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* pane = nullptr, bool isTab = true); 
   void LoadSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* parent = nullptr);
 
 private:

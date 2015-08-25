@@ -872,22 +872,25 @@ void TabView::Diagnose(HANDLE hFile)
 
 //////////////////////////////////////////////////////////////////////////////
 
-void TabView::SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* pane)
+void TabView::SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* pane, bool isTab)
 {
-    prop.put(prefix + L".title", (LPCTSTR) m_strTitle);
-    prop.put(prefix + L".tabIndex", m_tabData->nIndex);
+    if (isTab)
+    {
+        prop.put(prefix + L".title", (LPCTSTR) m_strTitle);
+        prop.put(prefix + L".tabIndex", m_tabData->nIndex);
+    }
 
-    if( pane == nullptr )
+    if (pane == nullptr)
         pane = &(multisplitClass::tree);
 
-    if( pane->isSplitBar() )
+    if (pane->isSplitBar())
     {
         prop.put(prefix + L".isSplit", true);
         prop.put(prefix + L".splitType", static_cast<int>(pane->splitType));
         prop.put(prefix + L".splitRatio", pane->splitRatio);
         prop.put(prefix + L".currentDirectory", m_views[pane->pane0->window]->GetConsoleHandler().GetCurrentDirectory());
-        SaveSession(prop, prefix + L".pane0", pane->pane0);
-        SaveSession(prop, prefix + L".pane1", pane->pane1);
+        SaveSession(prop, prefix + L".pane0", pane->pane0, false);
+        SaveSession(prop, prefix + L".pane1", pane->pane1, false);
     }
     else
     {
@@ -898,22 +901,22 @@ void TabView::SaveSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPa
 
 void TabView::LoadSession(pt::wptree& prop, const wstring& prefix, CMultiSplitPane* parent)
 {
-    if( parent == nullptr )
+    if (parent == nullptr)
         parent = &(multisplitClass::tree);
 
-    if( prop.get(prefix + L".isSplit", false) )
+    if (prop.get(prefix + L".isSplit", false))
     {
         int splitType = prop.get(prefix + L".splitType", static_cast<int>(CMultiSplitPane::NONE));
         wstring currentDirectory = prop.get(prefix + L".pane1.currentDirectory", L"");
-        if( splitType == CMultiSplitPane::VERTICAL || CMultiSplitPane::HORIZONTAL )
+        if (splitType == CMultiSplitPane::VERTICAL || CMultiSplitPane::HORIZONTAL)
             Split(static_cast<CMultiSplitPane::SPLITTYPE>(splitType), currentDirectory);
 
         CMultiSplitPane* nextParent = multisplitClass::defaultFocusPane->parent;
-        if( nextParent )
+        if (nextParent)
         {
-            if ( prop.get(prefix + L".pane0.isSplit", false) )
+            if (prop.get(prefix + L".pane0.isSplit", false))
                 LoadSession(prop, prefix + L".pane0", nextParent->pane0);
-            if ( prop.get(prefix + L".pane1.isSplit", false) )
+            if (prop.get(prefix + L".pane1.isSplit", false))
                 LoadSession(prop, prefix + L".pane1", nextParent->pane1);
         }
     }
