@@ -281,7 +281,6 @@ LRESULT MainFrame::CreateInitialTabs
 		}
 	}
 
-    OutputDebugString(bAtLeastOneStarted ? L"bAtLeastOneStarted is true" : L"bAtLeastOneStarted is false");
 	return bAtLeastOneStarted ? 0 : -1;
 }
 
@@ -436,7 +435,8 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
     bool allowEmpty = false;
     if (g_settingsHandler->GetConsoleSettings().bAutoLoadSession)
     {
-        wstring autoSaveSessionFile = g_settingsHandler->GetSettingsFileName() + L".cxs";
+        wstring settingsFile = g_settingsHandler->GetSettingsFileName(); 
+        wstring autoSaveSessionFile = settingsFile.substr(0, settingsFile.length() - 4) + L".czs";
         if (PathFileExists(autoSaveSessionFile.c_str()))
             if (LoadSession(autoSaveSessionFile))
                 allowEmpty = true;
@@ -616,7 +616,8 @@ LRESULT MainFrame::OnClose(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 
     if (g_settingsHandler->GetConsoleSettings().bAutoSaveSession)
     {
-        SaveSession(g_settingsHandler->GetSettingsFileName() + L".cxs");
+        wstring settingsFile = g_settingsHandler->GetSettingsFileName(); 
+        SaveSession(settingsFile.substr(0, settingsFile.length() - 4) + L".czs");
     }
 
 	// destroy all views
