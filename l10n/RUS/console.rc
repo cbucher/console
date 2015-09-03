@@ -72,7 +72,7 @@ BEGIN
 #ifndef _USE_AERO
     CTEXT           "\nConsoleZ",IDC_STATIC_VERSION,25,41,78,25
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
-    CTEXT           "\nCopyright (C) 2011-2015\nChristophe Bucher\n\nмодифицированная\nверсия\nConsole 2\nMarko Bozikovic\nперевод koros aka ya158\nkoros@ya.ru",IDC_APPTEXT,14,64,103,80,,WS_EX_TRANSPARENT
+	CTEXT           "\nCopyright (C) 2011-2015\nChristophe Bucher\n\nмодифицированная\nверсия\nConsole 2\nMarko Bozikovic\nперевод koros aka ya158\nkoros@ya.ru", IDC_APPTEXT, 14, 64, 103, 80, , WS_EX_TRANSPARENT
 #endif
     GROUPBOX        "",IDC_STATIC,7,7,115,137
 END
@@ -148,7 +148,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     RTEXT           "&Заголовок:",IDC_STATIC,10,15,43,8
     EDITTEXT        IDC_WINDOW_TITLE,55,13,85,14,ES_AUTOHSCROLL
-	CONTROL         "Ис&пользовать заголовок вкладки", IDC_CHECK_USE_TAB_TITLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP | BS_MULTILINE, 150, 14, 78, 16
+	CONTROL         "Ис&пользовать заголовок вкладки", IDC_CHECK_USE_TAB_TITLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP | BS_MULTILINE, 150, 13, 78, 16
 
     RTEXT           "Формат заголовка основного окна:",IDC_STATIC,10,31,63,16
     EDITTEXT        IDC_MAIN_TITLE_FORMAT,75,33,150,14,ES_AUTOHSCROLL
@@ -194,10 +194,10 @@ BEGIN
     EDITTEXT        IDC_SNAP,136,224,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_SNAP,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,166,231,11,14
     LTEXT           "пиксел",IDC_STATIC,179,227,52,8
-    RTEXT           "Привязка:",IDC_STATIC,10,246,37,8
-    COMBOBOX        IDC_COMBO_DOCKING,48,244,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Z порядок:",IDC_STATIC,120,246,37,8
-    COMBOBOX        IDC_COMBO_ZORDER,158,244,70,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Привязка:",IDC_STATIC,7,246,37,8
+    COMBOBOX        IDC_COMBO_DOCKING,45,244,60,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Z порядок:",IDC_STATIC,107,246,37,8
+    COMBOBOX        IDC_COMBO_ZORDER,145,244,83,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Размещение",IDC_STATIC,0,175,235,90
 END
 
@@ -266,22 +266,24 @@ IDD_SETTINGS_TRANSPARENCY DIALOGEX 0, 0, 235, 265
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Не&т",IDC_TRANSPARENCY_TYPE,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE | WS_GROUP,10,15,100,10
-    CONTROL         "А&льфа-канал",IDC_TRANSPARENCY_TYPE2,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,30,100,10
-    CONTROL         "&Ключевой цвет",IDC_TRANSPARENCY_TYPE3,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,110,100,10
+    CONTROL         "Не&т",IDC_TRANSPARENCY_TYPE,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE | WS_GROUP,10,11,100,16
+    CONTROL         "А&льфа-канал",IDC_TRANSPARENCY_TYPE2,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,43,100,16
+    CONTROL         "&Ключевой цвет",IDC_TRANSPARENCY_TYPE3,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,120,100,16
 #ifdef _USE_AERO
-    CONTROL         "Эффект Aero Glass",IDC_TRANSPARENCY_TYPE4,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,130,30,100,10
+    CONTROL         "Эффект Aero Glass",IDC_TRANSPARENCY_TYPE4,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,130,43,100,16
 #endif
-    LTEXT           "&Активного окна",IDC_STATIC_ACTIVE_WINDOW,22,45,240,8
-    CONTROL         "",IDC_ACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,55,192,20
-    LTEXT           "255",IDC_STATIC_ACTIVE_ALPHA,215,57,14,8,0,WS_EX_RIGHT
-    
-    LTEXT           "Неактивно&го окна",IDC_STATIC_INACTIVE_WINDOW,22,75,240,8
-    CONTROL         "",IDC_INACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,85,192,20
-    LTEXT           "255",IDC_STATIC_INACTIVE_ALPHA,215,87,14,8,0,WS_EX_RIGHT
+    CONTROL         "Альфа-канал и ключевой цвет",IDC_TRANSPARENCY_TYPE5,"Button",BS_AUTORADIOBUTTON  | BS_MULTILINE,10,27,150,16
 
-    LTEXT           "В&ыбрать цвет:",IDC_STATIC_KEY_COLOR,22,125,50,8
-    CONTROL         "",IDC_KEY_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,75,122,16,14,WS_EX_DLGMODALFRAME
+    LTEXT           "&Активного окна",IDC_STATIC_ACTIVE_WINDOW,22,61,240,8
+    CONTROL         "",IDC_ACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,71,192,20
+    LTEXT           "255",IDC_STATIC_ACTIVE_ALPHA,215,73,14,8,0,WS_EX_RIGHT
+    
+    LTEXT           "Неактивно&го окна",IDC_STATIC_INACTIVE_WINDOW,22,91,240,8
+    CONTROL         "",IDC_INACTIVE_ALPHA,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,101,192,20
+    LTEXT           "255",IDC_STATIC_INACTIVE_ALPHA,215,103,14,8,0,WS_EX_RIGHT
+
+    LTEXT           "В&ыбрать цвет:",IDC_STATIC_KEY_COLOR,22,141,40,8
+    CONTROL         "",IDC_KEY_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,65,138,16,14,WS_EX_DLGMODALFRAME
 END
 
 IDD_SETTINGS_FONT DIALOGEX 0, 0, 235, 265
@@ -302,13 +304,15 @@ BEGIN
     CONTROL         "",IDC_SPIN_FONT_EXTRAWIDTH,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,218,34,11,14
 
     RTEXT           "Метод сглаживания шрифтов:",IDC_STATIC,10,55,105,8
-    COMBOBOX        IDC_COMBO_SMOOTHING,120,51,65,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "&Цвет:",IDC_CHECK_USE_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,70,56,10
-    CONTROL         "",IDC_FONT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,69,68,16,14,WS_EX_DLGMODALFRAME
+    COMBOBOX        IDC_COMBO_SMOOTHING,120,53,93,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Цвет:",IDC_CHECK_USE_COLOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,75,56,16
+    CONTROL         "",IDC_FONT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,69,76,16,14,WS_EX_DLGMODALFRAME
     CONTROL         "Отображать шрифт интенсивного цвета жирным",IDC_CHECK_BOLD_INTENSIFIED,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,87,240,10
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,95,240,16
     CONTROL         "Отображать шрифт интенсивного цвета курсивом",IDC_CHECK_ITALIC_INTENSIFIED,
-                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,104,240,10
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,115,240,16
+    CONTROL         "Разрешить лигатуру (соединение букв)",IDC_CHECK_LIGATURE,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,135,240,16
 END
 
 IDD_SETTINGS_TABS DIALOGEX 0, 0, 237, 265
@@ -335,10 +339,10 @@ BEGIN
     CONTROL         "",IDC_SPIN_EOL_SPACES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,175,33,11,14
     LTEXT           "пробелов",IDC_STATIC_EOL_SPACES_2,195,36,35,8
 
-    CONTROL         "Очищать выделение при копировании",IDC_CHECK_CLEAR_ON_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,30,100,16
-    CONTROL         "Копировать по щелчку на выделенном",IDC_CHECK_SENSITIVE_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,45,100,16
+    CONTROL         "Очищать выделение при копировании",IDC_CHECK_CLEAR_ON_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,31,100,16
+    CONTROL         "Копировать по щелчку на выделенном",IDC_CHECK_SENSITIVE_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,48,100,16
     CONTROL         "Убирать концевые пробелы",IDC_CHECK_TRIM_SPACES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,48,100,16
-    CONTROL         "Копировать как Rich Text Format",IDC_CHECK_RTF,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,60,100,16
+    CONTROL         "Копировать как Rich Text Format",IDC_CHECK_RTF,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,64,200,16
     GROUPBOX        "Копирование && Вставка",IDC_STATIC,0,0,235,78
 
     CONTROL         "Windows (CR+LF)",IDC_RADIO_COPY_NEWLINE_CHAR,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,10,95,100,10
@@ -354,8 +358,8 @@ BEGIN
     GROUPBOX        "Разделители слов",IDC_STATIC,120,80,115,48
 
     CONTROL         "Мигает",IDC_CHECK_FLASH_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,145,100,10
-    LTEXT           "раз",IDC_STATIC_FLASHES,20,160,28,8
-    EDITTEXT        IDC_TAB_FLASHES,50,158,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
+    LTEXT           "раз(а)",IDC_STATIC_FLASHES,55,160,28,8
+    EDITTEXT        IDC_TAB_FLASHES,20,158,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_TAB_FLASHES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,75,158,11,14
     CONTROL         "и остается выделеной",IDC_CHECK_LEAVE_HIGHLIGHTED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,19,175,90,10
     GROUPBOX        "Неактивная вкладка...",IDC_STATIC,0,130,115,63,WS_GROUP
@@ -379,8 +383,8 @@ BEGIN
     CONTROL         "При наведении мыши",IDC_CHECK_FOCUS_FOLLOW_MOUSE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,15,100,10
     GROUPBOX        "Фокус",IDC_STATIC,0,0,100,33,WS_GROUP
 
-    CONTROL         "Разрешить запуск нескольких копий программы",IDC_CHECK_MULTI_INSTANCES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,115,10,120,20
-    GROUPBOX        "Копии программы",IDC_STATIC,105,0,130,33,WS_GROUP
+	CONTROL         "Разрешить запуск нескольких копий программы", IDC_CHECK_MULTI_INSTANCES, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 115, 10, 120, 20
+	GROUPBOX        "Копии программы", IDC_STATIC, 105, 0, 130, 33, WS_GROUP
 
     CONTROL         "Открывать новую оболочку в текущей директории",IDC_CHECK_OPEN_CURRENT_DIR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,50,240,10
     GROUPBOX        "Разделение/Клонирование",IDC_STATIC,0,35,235,33
@@ -435,13 +439,13 @@ BEGIN
     EDITTEXT        IDC_BK_IMAGE,48,43,155,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_BK,206,43,15,14
     CONTROL         "Относительно",IDC_CHECK_BK_RELATIVE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,23,62,65,10
-    CONTROL         "Показывать на всех мониторах",IDC_CHECK_BK_EXTEND,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,23,77,195,10
-    RTEXT           "Положение:",IDC_STATIC_BK_POS,90,63,47,8,NOT WS_GROUP
+	CONTROL         "Показывать на всех мониторах", IDC_CHECK_BK_EXTEND, "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 23, 77, 195, 10
+	RTEXT           "Положение:", IDC_STATIC_BK_POS, 90, 63, 47, 8, NOT WS_GROUP
     COMBOBOX        IDC_COMBO_BK_POS,140,61,63,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Ц&вет оттенка:",IDC_STATIC_TINT_COLOR,23,103,33,8,NOT WS_GROUP
-    CONTROL         "",IDC_TINT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,58,100,16,14,WS_EX_DLGMODALFRAME
-    LTEXT           "Прозрачность:",IDC_STATIC_TINT_OPACITY,23,118,185,8,NOT WS_GROUP
-    CONTROL         "",IDC_TINT_OPACITY,"msctls_trackbar32",TBS_AUTOTICKS | WS_TABSTOP,20,127,188,20
+    RTEXT           "Ц&вет оттенка:",IDC_STATIC_TINT_COLOR,23,103,50,8,NOT WS_GROUP
+    CONTROL         "",IDC_TINT_COLOR,"Static",SS_BLACKFRAME | SS_NOTIFY,78,100,16,14,WS_EX_DLGMODALFRAME
+	LTEXT           "Прозрачность:", IDC_STATIC_TINT_OPACITY, 23, 118, 185, 8, NOT WS_GROUP
+	CONTROL         "", IDC_TINT_OPACITY, "msctls_trackbar32", TBS_AUTOTICKS | WS_TABSTOP, 20, 127, 188, 20
     LTEXT           "255",IDC_TINT_OPACITY_VAL,207,129,14,8,0,WS_EX_RIGHT
 
     CONTROL         "&Наследовать",IDC_BTN_INHERIT_BACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,152,60,10
@@ -795,8 +799,8 @@ END
 STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "Открыть новую вкладку\nНовая вкладка"
-	ID_VIEW_CONSOLE         "Показать или скрыть консоль"
-	ID_FILE_CLOSE_TAB       "Закрыть текущую вкладку\nЗакрыть вкладку"
+    ID_VIEW_CONSOLE         "Показать или скрыть консоль"
+    ID_FILE_CLOSE_TAB       "Закрыть текущую вкладку\nЗакрыть вкладку"
     ID_FILE_CLOSE_ALL_TABS_BUT_THIS "Закрыть все вкладки, кроме текущей"
     ID_FILE_CLOSE_ALL_TABS_LEFT     "Закрыть все вкладки слева от текущей"
     ID_FILE_CLOSE_ALL_TABS_RIGHT    "Закрыть все вкладки справа от текущей"
@@ -855,8 +859,8 @@ BEGIN
     IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "Невозможно создать расшаренные объекты (причина:%1%)!"
     IDS_ERR_CANT_START_SHELL_AS_ADMIN "Невозможно запустить %1% %2% от администратора (причина:%3%)!"
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Невозможно получить повышенный уровень (причина:%1%)!"
-	IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте Диспетчер задач для завершения его)"
-	END
+    IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте Диспетчер задач для завершения его)"
+END
 
 STRINGTABLE
 BEGIN
@@ -876,6 +880,10 @@ BEGIN
                             "текущий"
     MSG_SETTINGS_DELETE_TAB
                             "Удалить выделенные вкладки?"
+    MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR
+                            "Не удается сохранить конфигурацию. Убедитесь, что у вас есть право на запись в %1%."
+    MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR_EXEDIR
+                            "Рекомендуется сохранять настройки в директорию пользователя."
     MSG_SETTINGS_INIT_DIR
                             "Выберите стартоую папку"
     MSG_SETTINGS_ICON_FILES
@@ -1057,7 +1065,7 @@ BEGIN
     IDC_COMBO_CURSOR             "XTerm;Block;Nonblinking block;Pulse;Bar;Nonblinking horz. line;Horizontal line;Vertical line;Rect;Nonblinking rect;Pulsating rect;Fading block;Console;XTerm2;Horizontal bar;"
     IDC_COMBO_DOCKING            "Нет;Сверху слева;Сверху справа;Внизу слева;Внизу справа;Сверху в центре;Внизу в центре;Слева в центре;Справа в центре;"
     IDC_COMBO_ZORDER             "Обычный;Всегда сверху;Всегда внизу;Закрепить на десктопе;"
-    IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;"
+    IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;Natural ClearType;Сглаженный"
     IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Четвертая;Пятая;"
     IDC_COMBO_BK_POS             "По центру;Растянуть;Замостить;По размеру;Заполнение;"
     IDC_COMBO_FULLSCREEN_MONITOR "Текущий;"
