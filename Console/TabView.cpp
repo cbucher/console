@@ -23,6 +23,8 @@ TabView::TabView(MainFrame& mainFrame, std::shared_ptr<TabData> tabData, const w
 ,m_strCmdLineInitialDir(strCmdLineInitialDir)
 ,m_strCmdLineInitialCmd(strCmdLineInitialCmd)
 ,m_dwBasePriority(dwBasePriority)
+,m_nextPreviousFocusPane(0)
+,m_previousFocusPane(0)
 {
 }
 
@@ -507,6 +509,83 @@ void TabView::Split(CMultiSplitPane::SPLITTYPE splitType)
 
 /////////////////////////////////////////////////////////////////////////////
 
+void TabView::SwapSplit()
+{
+	if( multisplitClass::tree.isSplitBar() )
+	{
+		CMultiSplitPane& tree = multisplitClass::tree;
+		CMultiSplitPane* pane0 = tree.pane0;
+		CMultiSplitPane* pane1 = tree.pane1;
+		CMultiSplitPane* focus = multisplitClass::defaultFocusPane;
+
+		int x0 = pane0->x, y0 = pane0->y;
+		pane0->x = pane1->x;
+		pane0->y = pane1->y;
+		pane1->x = x0;
+		pane1->y = y0;
+
+		tree.pane0 = pane1;
+		tree.pane1 = pane0;
+		tree.splitRatio = 100 - tree.splitRatio;
+
+		multisplitClass::SetDefaultFocusPane(focus);
+		multisplitClass::UpdateLayout();
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
+void TabView::SwapSplitWithPrevious()
+{
+	if( multisplitClass::tree.isSplitBar() && multisplitClass::defaultFocusPane && m_previousFocusPane &&
+		multisplitClass::defaultFocusPane != m_previousFocusPane )
+	{
+		CMultiSplitPane* focus = multisplitClass::defaultFocusPane;
+		CMultiSplitPane* previous = m_previousFocusPane;
+		CMultiSplitPane* fp = focus->parent, *pp = previous->parent;
+
+		if( fp == pp )
+		{
+			SwapSplit();
+			return;
+		}
+
+		int fx = focus->x, fy = focus->y, fw = focus->width, fh = focus->height;
+		focus->x         = previous->x;
+		focus->y         = previous->y;
+		focus->width     = previous->width;
+		focus->height    = previous->height;
+		previous->x      = fx;
+		previous->y      = fy;
+		previous->width  = fw;
+		previous->height = fh;
+
+		if( fp->pane0 == focus )
+			fp->pane0 = previous;
+		else if( fp->pane1 == focus )
+			fp->pane1 = previous;
+
+		if( pp->pane0 == previous )
+			pp->pane0 = focus;
+		else if( pp->pane1 == previous )
+			pp->pane1 = focus;
+
+		focus->parent = pp;
+		previous->parent = fp;
+
+		multisplitClass::SetDefaultFocusPane(focus);
+		multisplitClass::UpdateLayout();
+		CRect clientRect(0, 0, 0, 0);
+		AdjustRectAndResize(ADJUSTSIZE_WINDOW, clientRect, WMSZ_BOTTOM);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+
 bool TabView::CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed)
 {
 	boolTabClosed = false;
@@ -840,6 +919,12 @@ void TabView::OnPaneChanged(void)
 {
   SetAppActiveStatus(m_mainFrame.GetAppActiveStatus());
   SetActive(true);
+
+  if( multisplitClass::defaultFocusPane != m_nextPreviousFocusPane )
+  {
+    m_previousFocusPane = m_nextPreviousFocusPane;
+    m_nextPreviousFocusPane = multisplitClass::defaultFocusPane;
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////

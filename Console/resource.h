@@ -346,6 +346,8 @@
 #define ID_DIAGNOSE                     2934
 #define ID_FONT_INFO                    2935
 #define ID_PASTE_SELECTION              2936
+#define ID_SPLIT_SWAP                   2937
+#define ID_SPLIT_SWAP_PREVIOUS          2938
 
 #define IDC_DUMP_BUFFER                 3000
 
@@ -448,6 +450,8 @@
 #define IDS_EXTERNAL_COMMAND_10         6085
 #define IDS_GLOBAL_ACTIVATE             6086
 #define IDS_PASTE_SELECTION             6087
+#define IDS_SPLIT_SWAP                  6088
+#define IDS_SPLIT_SWAP_PREVIOUS         6089
 
 #define IDS_MOUSE_COPY                  7000
 #define IDS_MOUSE_SELECT                7001

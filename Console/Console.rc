@@ -644,6 +644,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ 
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
+        MENUITEM "S&wap with Sibling Pane",     ID_SPLIT_SWAP
+        MENUITEM "Swap w&ith Previous Pane",    ID_SPLIT_SWAP_PREVIOUS
         MENUITEM "Clone in new &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Settings...",                ID_EDIT_SETTINGS
@@ -692,6 +694,8 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
+        MENUITEM "S&wap with Sibling Pane",     ID_SPLIT_SWAP
+        MENUITEM "Swap w&ith Previous Pane",    ID_SPLIT_SWAP_PREVIOUS
         MENUITEM "Clone in new &Tab",           ID_CLONE_IN_NEW_TAB
         MENUITEM SEPARATOR
 
@@ -967,6 +971,8 @@ BEGIN
     IDS_ATTACH_CONSOLES      "Attach consoles"
     IDS_SPLIT_HORIZ          "Split horizontally"
     IDS_SPLIT_VERT           "Split vertically"
+    IDS_SPLIT_SWAP           "Swap with sibling pane"
+    IDS_SPLIT_SWAP_PREVIOUS  "Swap with previous pane"
     IDS_CLONE_IN_NEW_TAB     "Clone view in new tab"
     IDS_VIEW_FULLSCREEN      "Full Screen"
     IDS_VIEW_ZOOM_100        "Zoom 100%"

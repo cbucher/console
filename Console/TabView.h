@@ -67,6 +67,8 @@ public:
   void GetRect(CRect& clientRect);
 
   void Split(CMultiSplitPane::SPLITTYPE);
+  void SwapSplit();
+  void SwapSplitWithPrevious();
   bool CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed);
   void SwitchView(WORD wID);
   void ResizeView(WORD wID);
@@ -99,6 +101,8 @@ private:
   wstring             m_strCmdLineInitialDir;
   wstring             m_strCmdLineInitialCmd;
 	DWORD               m_dwBasePriority;
+  CMultiSplitPane*    m_nextPreviousFocusPane;
+  CMultiSplitPane*    m_previousFocusPane;
 
   // static members
 private:

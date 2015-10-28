@@ -1741,6 +1741,8 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"attach",             ID_ATTACH_CONSOLES,      IDS_ATTACH_CONSOLES     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splithoriz",         ID_SPLIT_HORIZ,          IDS_SPLIT_HORIZ         )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitvert",          ID_SPLIT_VERT,           IDS_SPLIT_VERT          )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitswap",          ID_SPLIT_SWAP,           IDS_SPLIT_SWAP          )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitswapprev",      ID_SPLIT_SWAP_PREVIOUS,  IDS_SPLIT_SWAP_PREVIOUS )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"clone",              ID_CLONE_IN_NEW_TAB,     IDS_CLONE_IN_NEW_TAB    )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"fullscreen",         ID_VIEW_FULLSCREEN,      IDS_VIEW_FULLSCREEN     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"zoom100",            ID_VIEW_ZOOM_100,        IDS_VIEW_ZOOM_100       )));
