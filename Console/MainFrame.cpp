@@ -10,6 +10,7 @@
 #include "DlgSettingsMain.h"
 #include "MainFrame.h"
 #include "JumpList.h"
+#include "ShellScalingAPI.h"
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -138,12 +139,12 @@ MainFrame::MainFrame
 , m_bTransparencyActive(true)
 , m_dockPosition(dockNone)
 , m_zOrder(zorderNormal)
-, m_mousedragOffset(0, 0)
 , m_tabs()
 , m_tabsMutex(NULL, FALSE, NULL)
 , m_dwWindowWidth(0)
 , m_dwWindowHeight(0)
 , m_dwResizeWindowEdge(WMSZ_BOTTOM)
+, m_dwScreenDpi(96)
 , m_bRestoringWindow(false)
 , m_bAppActive(true)
 , m_bShowingHidingWindow(false)
@@ -432,18 +433,68 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 
 	CreateStatusBar();
 
-	// create font
-	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false);
+	DWORD dwFlags = SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING;
 
-	// initialize tabs
-	UpdateTabsMenu(m_CmdBar.GetMenu(), m_tabsMenu);
-	SetReflectNotifications(true);
+	if (positionSettings.bSavePosition ||
+		(positionSettings.nX != -1 && positionSettings.nY != -1))
+	{
+		// reposition the window
+		dwFlags &= ~SWP_NOMOVE;
+
+		// check we're not out of desktop bounds 
+		int	nDesktopLeft = ::GetSystemMetrics(SM_XVIRTUALSCREEN);
+		int	nDesktopTop = ::GetSystemMetrics(SM_YVIRTUALSCREEN);
+
+		int	nDesktopRight = nDesktopLeft + ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		int	nDesktopBottom = nDesktopTop + ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
+
+		if ((positionSettings.nX < nDesktopLeft) || (positionSettings.nX > nDesktopRight)) positionSettings.nX = 50;
+		if ((positionSettings.nY < nDesktopTop) || (positionSettings.nY > nDesktopBottom)) positionSettings.nY = 50;
+	}
+
+	if (positionSettings.bSaveSize ||
+		(positionSettings.nW != -1 && positionSettings.nH != -1))
+	{
+		// resize the window
+		dwFlags &= ~SWP_NOSIZE;
+	}
 
 	DWORD dwTabStyles = CTCS_TOOLTIPS | CTCS_DRAGREARRANGE | CTCS_SCROLL | CTCS_CLOSEBUTTON | CTCS_HOTTRACK;
 	if (controlsSettings.TabsOnBottom()) dwTabStyles |= CTCS_BOTTOM;
 	if (g_settingsHandler->GetBehaviorSettings().closeSettings.bAllowClosingLastView) dwTabStyles |= CTCS_CLOSELASTTAB;
 
 	CreateTabWindow(m_hWnd, rcDefault, dwTabStyles);
+
+	SetTransparency();
+	SetWindowPos(NULL, positionSettings.nX, positionSettings.nY, positionSettings.nW, positionSettings.nH, dwFlags);
+	DockWindow(positionSettings.dockPosition);
+	SetZOrder(positionSettings.zOrder);
+
+	CRect rectWindow;
+	GetWindowRect(&rectWindow);
+
+	m_dwWindowWidth = rectWindow.Width();
+	m_dwWindowHeight = rectWindow.Height();
+
+#if _WIN64 // per-monitor dpi awareness is only supported in x64
+
+	UINT dpiX; UINT dpiY;
+	HMONITOR hmonitor = MonitorFromRect(&rectWindow, MONITOR_DEFAULTTOPRIMARY);
+	if (GetDpiForMonitor(hmonitor, MDT_DEFAULT, &dpiX, &dpiY) == S_OK)
+		m_dwScreenDpi = dpiY;
+
+#else
+
+	m_dwScreenDpi = CDC(::CreateCompatibleDC(NULL)).GetDeviceCaps(LOGPIXELSY);
+
+#endif
+
+	// create font
+	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
+
+	// initialize tabs
+	UpdateTabsMenu(m_CmdBar.GetMenu(), m_tabsMenu);
+	SetReflectNotifications(true);
 
 	if (LRESULT created = CreateInitialTabs(m_startupTabs, m_startupTabTitles, m_startupCmds, m_startupDirs, m_priorities, m_nMultiStartSleep, m_strWorkingDir))
 		return created;
@@ -479,32 +530,6 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	UISetCheck(ID_SEARCH_MATCH_CASE, searchSettings.bMatchCase);
 	UISetCheck(ID_SEARCH_MATCH_WHOLE_WORD, searchSettings.bMatchWholeWord);
 
-	DWORD dwFlags	= SWP_NOSIZE|SWP_NOZORDER;
-
-	if( !positionSettings.bSavePosition &&
-	    (positionSettings.nX == -1 || positionSettings.nY == -1) )
-	{
-		// do not reposition the window
-		dwFlags |= SWP_NOMOVE;
-	}
-	else
-	{
-		// check we're not out of desktop bounds 
-		int	nDesktopLeft	= ::GetSystemMetrics(SM_XVIRTUALSCREEN);
-		int	nDesktopTop		= ::GetSystemMetrics(SM_YVIRTUALSCREEN);
-
-		int	nDesktopRight	= nDesktopLeft + ::GetSystemMetrics(SM_CXVIRTUALSCREEN);
-		int	nDesktopBottom	= nDesktopTop + ::GetSystemMetrics(SM_CYVIRTUALSCREEN);
-
-		if ((positionSettings.nX < nDesktopLeft) || (positionSettings.nX > nDesktopRight)) positionSettings.nX = 50;
-		if ((positionSettings.nY < nDesktopTop) || (positionSettings.nY > nDesktopBottom)) positionSettings.nY = 50;
-	}
-
-	SetTransparency();
-	SetWindowPos(NULL, positionSettings.nX, positionSettings.nY, 0, 0, dwFlags);
-	DockWindow(positionSettings.dockPosition);
-	SetZOrder(positionSettings.zOrder);
-
 	if (g_settingsHandler->GetAppearanceSettings().stylesSettings.bTrayIcon) SetTrayIcon(NIM_ADD);
 	SetWindowIcons();
 
@@ -512,12 +537,6 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	RegisterGlobalHotkeys();
 
 	AdjustWindowSize(ADJUSTSIZE_NONE);
-
-	CRect rectWindow;
-	GetWindowRect(&rectWindow);
-
-	m_dwWindowWidth	= rectWindow.Width();
-	m_dwWindowHeight= rectWindow.Height();
 
 	TRACE(L"initial dims: %ix%i\n", m_dwWindowWidth, m_dwWindowHeight);
 
@@ -530,14 +549,6 @@ LRESULT MainFrame::OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/,
 	// this is the only way I know that other message handlers can be aware 
 	// if they're being called after OnCreate has finished
 	m_bOnCreateDone = true;
-
-	if( positionSettings.bSaveSize ||
-	    (positionSettings.nW != -1 && positionSettings.nH != -1) )
-	{
-		// resize the window
-		SetWindowPos(NULL, 0, 0, positionSettings.nW, positionSettings.nH, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
-		AdjustWindowSize(ADJUSTSIZE_WINDOW);
-	}
 
 	if( g_settingsHandler->GetAppearanceSettings().fullScreenSettings.bStartInFullScreen )
 		ShowFullScreen(true);
@@ -1130,15 +1141,17 @@ LRESULT MainFrame::OnWindowPosChanging(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnMouseButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
+LRESULT MainFrame::OnDpiChanged(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/)
 {
-	if (::GetCapture() == m_hWnd)
+	DWORD dpi = HIWORD(wParam);
+	if (dpi != m_dwScreenDpi)
 	{
-		::ReleaseCapture();
-	}
-	else
-	{
-		bHandled = FALSE;
+		m_dwScreenDpi = dpi;
+		ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
+
+		CRect newRect = CRect(reinterpret_cast<RECT*>(lParam));
+		SetWindowPos(HWND_TOP, newRect.left, newRect.top, newRect.Width(), newRect.Height(), SWP_NOZORDER | SWP_NOACTIVATE);
+		AdjustWindowSize(ADJUSTSIZE_WINDOW);
 	}
 
 	return 0;
@@ -1149,23 +1162,15 @@ LRESULT MainFrame::OnMouseButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lP
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+LRESULT MainFrame::OnMouseButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
 {
-	CPoint	point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-
 	if (::GetCapture() == m_hWnd)
 	{
-		ClientToScreen(&point);
-
-		SetWindowPos(
-			NULL, 
-			point.x - m_mousedragOffset.x, 
-			point.y - m_mousedragOffset.y, 
-			0, 
-			0,
-			SWP_NOSIZE|SWP_NOZORDER);
-
-		RedrawWindow(NULL, NULL, RDW_UPDATENOW|RDW_ALLCHILDREN);
+		::ReleaseCapture();
+	}
+	else
+	{
+		bHandled = FALSE;
 	}
 
 	return 0;
@@ -1597,21 +1602,14 @@ LRESULT MainFrame::OnShowPopupMenu(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, 
 
 //////////////////////////////////////////////////////////////////////////////
 
-LRESULT MainFrame::OnStartMouseDrag(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/)
+LRESULT MainFrame::OnStartMouseDrag(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
 	// do nothing for minimized or maximized or fullscreen windows
 	if (IsIconic() || IsZoomed() || m_bFullScreen) return 0;
 
-	CPoint	point(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-	CRect	windowRect;
+	ReleaseCapture();
+	SendMessage(WM_NCLBUTTONDOWN, HTCAPTION, 0);
 
-	GetWindowRect(windowRect);
-
-	m_mousedragOffset = point;
-	m_mousedragOffset.x -= windowRect.left;
-	m_mousedragOffset.y -= windowRect.top;
-
-	SetCapture();
 	return 0;
 }
 
@@ -1627,19 +1625,8 @@ LRESULT MainFrame::OnStartMouseDragExtendedFrameToClientArea(int /*idCtrl*/, LPN
       NMCTCITEM* pTabItem	= reinterpret_cast<NMCTCITEM*>(pnmh);
       if( pTabItem->iItem == -1 )
       {
-        CRect	tabWindowRect;
-        m_TabCtrl.GetWindowRect(tabWindowRect);
-
-        CRect	windowRect;
-        GetWindowRect(windowRect);
-
-        m_mousedragOffset = pTabItem->pt;
-        m_mousedragOffset.x += tabWindowRect.left;
-        m_mousedragOffset.y += tabWindowRect.top;
-        m_mousedragOffset.x -= windowRect.left;
-        m_mousedragOffset.y -= windowRect.top;
-
-        SetCapture();
+		  ReleaseCapture();
+		  SendMessage(WM_NCLBUTTONDOWN, HTCAPTION, 0);
       }
     }
     else if( pnmh->code == NM_LDOWN && pnmh->hwndFrom == m_toolbar.m_hWnd )
@@ -1648,19 +1635,8 @@ LRESULT MainFrame::OnStartMouseDragExtendedFrameToClientArea(int /*idCtrl*/, LPN
 
       if( pMouse->dwItemSpec == SIZE_MAX )
       {
-        CRect	toolbarWindowRect;
-        m_toolbar.GetWindowRect(toolbarWindowRect);
-
-        CRect	windowRect;
-        GetWindowRect(windowRect);
-
-        m_mousedragOffset = pMouse->pt;
-        m_mousedragOffset.x += toolbarWindowRect.left;
-        m_mousedragOffset.y += toolbarWindowRect.top;
-        m_mousedragOffset.x -= windowRect.left;
-        m_mousedragOffset.y -= windowRect.top;
-
-        SetCapture();
+		  ReleaseCapture();
+		  SendMessage(WM_NCLBUTTONDOWN, HTCAPTION, 0);
       }
     }
   }
@@ -2699,7 +2675,7 @@ LRESULT MainFrame::OnEditSettings(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWn
 		}
 	}
 
-	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false);
+	ConsoleView::RecreateFont(g_settingsHandler->GetAppearanceSettings().fontSettings.dwSize, false, m_dwScreenDpi);
 	AdjustWindowSize(ADJUSTSIZE_WINDOW);
 
 	DockPosition newDockPosition = g_settingsHandler->GetAppearanceSettings().positionSettings.dockPosition;
@@ -2852,7 +2828,7 @@ LRESULT MainFrame::OnZoom(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL
 			}
 
 			// recreate font with new size
-			if (ConsoleView::RecreateFont(dwNewSize, true))
+			if (ConsoleView::RecreateFont(dwNewSize, true, m_dwScreenDpi))
 			{
 				// only if the new size is different (to avoid flickering at extremes)
 				AdjustWindowSize(ADJUSTSIZE_FONT);

@@ -70,5 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

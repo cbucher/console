@@ -144,7 +144,7 @@ class ConsoleView
 
 		void SetAppActiveStatus(bool bAppActive);
 
-		static bool RecreateFont(DWORD dwNewFontSize, bool boolZooming);
+		static bool RecreateFont(DWORD dwNewFontSize, bool boolZooming, DWORD dwScreenDpi);
 		inline DWORD GetFontZoom(void) const { return m_dwFontZoom; }
 		void RecreateOffscreenBuffers(ADJUSTSIZE as);
 		void Repaint(bool bFullRepaint);
@@ -307,6 +307,7 @@ private:
   static int            m_nHInsideBorder;
   static DWORD          m_dwFontSize;
   static DWORD          m_dwFontZoom;
+  static DWORD          m_dwScreenDpi;
 };
 
 //////////////////////////////////////////////////////////////////////////////
