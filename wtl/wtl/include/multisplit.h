@@ -1059,6 +1059,9 @@ namespace WTL
 			CMultiSplitPane::splitBarWidth  = ::GetSystemMetrics (SM_CXSIZEFRAME);
 			CMultiSplitPane::splitBarHeight = ::GetSystemMetrics (SM_CYSIZEFRAME);
 #endif
+            CMultiSplitPane::splitBarWidth = 1;
+            CMultiSplitPane::splitBarHeight = 1;
+
 			this->edgeWidth  = ::GetSystemMetrics (SM_CXEDGE);
 			this->edgeHeight = ::GetSystemMetrics (SM_CYEDGE);
 
