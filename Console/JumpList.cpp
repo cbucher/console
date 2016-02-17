@@ -125,7 +125,7 @@ void JumpList::CreateList(TabDataVector& tabDataVector)
   for (TabDataVector::iterator it = tabDataVector.begin(); it != tabDataVector.end(); ++it)
   {
     CComPtr<IShellLink> psl;
-    wstring quotedName(L"-reuse -t ");
+    wstring quotedName(L"-t ");
     quotedName.append(Helpers::EscapeCommandLineArg((*it)->strTitle));
     quotedName.append(L" -c ");
     quotedName.append(Helpers::EscapeCommandLineArg(g_settingsHandler->GetSettingsFileName()));
