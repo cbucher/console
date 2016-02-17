@@ -294,10 +294,18 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
     ::ChangeWindowMessageFilter(0x0049, MSGFLT_ADD);
 #endif
 
-		if( visibility == ShowHideWindowAction::SHWA_HIDE_ONLY )
-		{
-			nCmdShow = g_settingsHandler->GetAppearanceSettings().stylesSettings.bTaskbarButton ? SW_MINIMIZE : SW_HIDE;
-		}
+    if (g_settingsHandler->GetAppearanceSettings().positionSettings.bShowMaximized)
+    {
+        nCmdShow = SW_SHOWMAXIMIZED;
+        // Initially show the window maximized even if it gets hidden or minimized later.
+        // This would ensure that when window is restored, it is maximized as expected.
+        wndMain.ShowWindow(nCmdShow);
+    }
+
+    if( visibility == ShowHideWindowAction::SHWA_HIDE_ONLY )
+    {
+        nCmdShow = g_settingsHandler->GetAppearanceSettings().stylesSettings.bTaskbarButton ? SW_MINIMIZE : SW_HIDE;
+    }
 
     wndMain.ShowWindow(nCmdShow);
 

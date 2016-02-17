@@ -53,6 +53,8 @@ LRESULT DlgSettingsAppearance::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LP
 	m_bTrimTabTitles = (m_windowSettings.dwTrimTabTitles > 0);
 	m_strWindowIcon  = m_windowSettings.strIcon.c_str();
 
+	m_bShowMaximized = m_positionSettings.bShowMaximized;
+
 	m_bUsePosition   = ((m_positionSettings.nX == -1) && (m_positionSettings.nY == -1)) ? false : true;
 	m_nX             = m_bUsePosition ? m_positionSettings.nX : 0;
 	m_nY             = m_bUsePosition ? m_positionSettings.nY : 0;
@@ -132,6 +134,8 @@ LRESULT DlgSettingsAppearance::OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /
 		m_windowSettings.strIcon			= m_strWindowIcon;
 		m_windowSettings.strMainTitleFormat = m_strMainTitleFormat;
 		m_windowSettings.strTabTitleFormat  = m_strTabTitleFormat;
+
+		m_positionSettings.bShowMaximized = m_bShowMaximized;
 
 		if (m_bUsePosition)
 		{
@@ -248,18 +252,24 @@ void DlgSettingsAppearance::EnableControls()
 	GetDlgItem(IDC_WINDOW_ICON).EnableWindow(!m_windowSettings.bUseTabIcon);
 	GetDlgItem(IDC_BTN_BROWSE_ICON).EnableWindow(!m_windowSettings.bUseTabIcon);
 
-	GetDlgItem(IDC_POS_X).EnableWindow(m_bUsePosition);
-	GetDlgItem(IDC_POS_Y).EnableWindow(m_bUsePosition);
-	GetDlgItem(IDC_SPIN_X).EnableWindow(m_bUsePosition);
-	GetDlgItem(IDC_SPIN_Y).EnableWindow(m_bUsePosition);
+	GetDlgItem(IDC_CHECK_POSITION).EnableWindow(!m_bShowMaximized);
+	bool bEnable = !m_bShowMaximized && m_bUsePosition;
+	GetDlgItem(IDC_POS_X).EnableWindow(bEnable);
+	GetDlgItem(IDC_POS_Y).EnableWindow(bEnable);
+	GetDlgItem(IDC_SPIN_X).EnableWindow(bEnable);
+	GetDlgItem(IDC_SPIN_Y).EnableWindow(bEnable);
 
-	GetDlgItem(IDC_POS_W).EnableWindow(m_bUseSize);
-	GetDlgItem(IDC_POS_H).EnableWindow(m_bUseSize);
-	GetDlgItem(IDC_SPIN_W).EnableWindow(m_bUseSize);
-	GetDlgItem(IDC_SPIN_H).EnableWindow(m_bUseSize);
+	GetDlgItem(IDC_CHECK_SIZE).EnableWindow(!m_bShowMaximized);
+	bEnable = !m_bShowMaximized && m_bUseSize;
+	GetDlgItem(IDC_POS_W).EnableWindow(bEnable);
+	GetDlgItem(IDC_POS_H).EnableWindow(bEnable);
+	GetDlgItem(IDC_SPIN_W).EnableWindow(bEnable);
+	GetDlgItem(IDC_SPIN_H).EnableWindow(bEnable);
 
-	GetDlgItem(IDC_SNAP).EnableWindow(m_bSnapToEdges);
-	GetDlgItem(IDC_SPIN_SNAP).EnableWindow(m_bSnapToEdges);
+	GetDlgItem(IDC_CHECK_SNAP).EnableWindow(!m_bShowMaximized);
+	bEnable = !m_bShowMaximized && m_bSnapToEdges;
+	GetDlgItem(IDC_SNAP).EnableWindow(bEnable);
+	GetDlgItem(IDC_SPIN_SNAP).EnableWindow(bEnable);
 }
 
 //////////////////////////////////////////////////////////////////////////////
