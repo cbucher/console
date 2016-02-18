@@ -282,6 +282,7 @@ struct PositionSettings : public SettingsBase
 
 	PositionSettings& operator=(const PositionSettings& other);
 
+	bool         bShowMaximized;
 	bool         bSavePosition;
 	bool         bSaveSize;
 	int          nX;
