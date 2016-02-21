@@ -884,15 +884,16 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 PositionSettings& PositionSettings::operator=(const PositionSettings& other)
 {
-	nX            = other.nX;
-	nY            = other.nY;
-	bSavePosition = other.bSavePosition;
-	nW            = other.nW;
-	nH            = other.nH;
-	bSaveSize     = other.bSaveSize;
-	zOrder        = other.zOrder;
-	dockPosition  = other.dockPosition;
-	nSnapDistance = other.nSnapDistance;
+	bShowMaximized = other.bShowMaximized;
+	nX             = other.nX;
+	nY             = other.nY;
+	bSavePosition  = other.bSavePosition;
+	nW             = other.nW;
+	nH             = other.nH;
+	bSaveSize      = other.bSaveSize;
+	zOrder         = other.zOrder;
+	dockPosition   = other.dockPosition;
+	nSnapDistance  = other.nSnapDistance;
 
 	return *this;
 }
