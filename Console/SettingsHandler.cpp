@@ -838,6 +838,7 @@ bool PositionSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 	if (FAILED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"appearance/position"), pPositionElement))) return false;
 
+	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"show_maximized"), bShowMaximized, false);
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"x"), nX, -1);
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"y"), nY, -1);
 	XmlHelper::GetAttribute(pPositionElement, CComBSTR(L"save_position"), bSavePosition, false);
@@ -862,6 +863,7 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 	if (FAILED(XmlHelper::GetDomElement(pSettingsRoot, CComBSTR(L"appearance/position"), pPositionElement))) return false;
 
+	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"show_maximized"), bShowMaximized);
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"x"), nX);
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"y"), nY);
 	XmlHelper::SetAttribute(pPositionElement, CComBSTR(L"save_position"), bSavePosition);
@@ -882,15 +884,16 @@ bool PositionSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 PositionSettings& PositionSettings::operator=(const PositionSettings& other)
 {
-	nX            = other.nX;
-	nY            = other.nY;
-	bSavePosition = other.bSavePosition;
-	nW            = other.nW;
-	nH            = other.nH;
-	bSaveSize     = other.bSaveSize;
-	zOrder        = other.zOrder;
-	dockPosition  = other.dockPosition;
-	nSnapDistance = other.nSnapDistance;
+	bShowMaximized = other.bShowMaximized;
+	nX             = other.nX;
+	nY             = other.nY;
+	bSavePosition  = other.bSavePosition;
+	nW             = other.nW;
+	nH             = other.nH;
+	bSaveSize      = other.bSaveSize;
+	zOrder         = other.zOrder;
+	dockPosition   = other.dockPosition;
+	nSnapDistance  = other.nSnapDistance;
 
 	return *this;
 }

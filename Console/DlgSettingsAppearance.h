@@ -30,6 +30,7 @@ class DlgSettingsAppearance
 			DDX_UINT(IDC_TRIM_TAB_TITLES_RIGHT, m_windowSettings.dwTrimTabTitlesRight)
 			DDX_TEXT(IDC_WINDOW_ICON, m_strWindowIcon)
 			DDX_CHECK(IDC_CHECK_USE_TAB_ICON, m_windowSettings.bUseTabIcon)
+			DDX_CHECK(IDC_CHECK_MAXIMIZE, m_bShowMaximized)
 			DDX_CHECK(IDC_CHECK_POSITION, m_bUsePosition)
 			DDX_INT(IDC_POS_X, m_nX)
 			DDX_INT(IDC_POS_Y, m_nY)
@@ -50,6 +51,7 @@ class DlgSettingsAppearance
 			COMMAND_HANDLER(IDC_CHECK_USE_TAB_ICON, BN_CLICKED, OnClickedCheckbox)
 			COMMAND_HANDLER(IDC_BTN_BROWSE_ICON, BN_CLICKED, OnClickedBtnBrowseIcon)
 			COMMAND_HANDLER(IDC_CHECK_TRIM_TAB_TITLES, BN_CLICKED, OnClickedCheckbox)
+			COMMAND_HANDLER(IDC_CHECK_MAXIMIZE, BN_CLICKED, OnClickedCheckbox)
 			COMMAND_HANDLER(IDC_CHECK_POSITION, BN_CLICKED, OnClickedCheckbox)
 			COMMAND_HANDLER(IDC_CHECK_SIZE, BN_CLICKED, OnClickedCheckbox)
 			COMMAND_HANDLER(IDC_CHECK_SNAP, BN_CLICKED, OnClickedCheckbox)
@@ -81,6 +83,7 @@ class DlgSettingsAppearance
 		bool						m_bTrimTabTitles;
 		CString						m_strWindowIcon;
 
+		bool                        		m_bShowMaximized;
 		bool						m_bUsePosition;
 		bool						m_bUseSize;
 		int							m_nX;
