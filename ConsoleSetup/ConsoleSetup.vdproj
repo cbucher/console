@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_69823E629D9D406AB08E04E1A7E5EBA2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_95E9A13A675A4758883FB48CC5E6FC09"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -74,6 +80,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
         "Release"
@@ -160,6 +174,26 @@
             {
             "SourcePath" = "8:..\\bin\\Win32\\Release\\Console.exe"
             "TargetName" = "8:Console.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_69823E629D9D406AB08E04E1A7E5EBA2"
+            {
+            "SourcePath" = "8:..\\help\\console.chm"
+            "TargetName" = "8:console.chm"
             "Tag" = "8:"
             "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
             "Condition" = "8:"
