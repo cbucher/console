@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_06E9FB26217D417FBC9929063321B351"
+        "MsmKey" = "8:_138B281CAE494F6CB03ADDFB9F711FEE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -27,13 +27,31 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_3F100F5850CC4276A26E1DEF7D7FCC09"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_69823E629D9D406AB08E04E1A7E5EBA2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_7FD1FA7ED14F4A0E86BF05D81E892C97"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_95E9A13A675A4758883FB48CC5E6FC09"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A6D9CE4DF03B40BFB632CB866BFFE438"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -46,12 +64,6 @@
         "Entry"
         {
         "MsmKey" = "8:_C96A99C71AA641D087BE1D58F4A99B47"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_EEB1254F3D744B10A0BE0F3EAC30C892"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -150,10 +162,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_06E9FB26217D417FBC9929063321B351"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_138B281CAE494F6CB03ADDFB9F711FEE"
             {
-            "SourcePath" = "8:..\\bin\\Win32\\Release\\Console.pdb"
-            "TargetName" = "8:Console.pdb"
+            "SourcePath" = "8:..\\bin\\l10n\\Release\\console_RUS.dll"
+            "TargetName" = "8:console_RUS.dll"
             "Tag" = "8:"
             "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
             "Condition" = "8:"
@@ -190,6 +202,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3F100F5850CC4276A26E1DEF7D7FCC09"
+            {
+            "SourcePath" = "8:..\\bin\\l10n\\Release\\console_JPN.dll"
+            "TargetName" = "8:console_JPN.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_69823E629D9D406AB08E04E1A7E5EBA2"
             {
             "SourcePath" = "8:..\\help\\console.chm"
@@ -210,10 +242,50 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_7FD1FA7ED14F4A0E86BF05D81E892C97"
+            {
+            "SourcePath" = "8:..\\bin\\l10n\\Release\\console_FRA.dll"
+            "TargetName" = "8:console_FRA.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_95E9A13A675A4758883FB48CC5E6FC09"
             {
             "SourcePath" = "8:..\\bin\\Win32\\Release\\FreeImagePlus.dll"
             "TargetName" = "8:FreeImagePlus.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A6D9CE4DF03B40BFB632CB866BFFE438"
+            {
+            "SourcePath" = "8:..\\bin\\l10n\\Release\\console_DEU.dll"
+            "TargetName" = "8:console_DEU.dll"
             "Tag" = "8:"
             "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
             "Condition" = "8:"
@@ -254,26 +326,6 @@
             {
             "SourcePath" = "8:..\\bin\\Win32\\Release\\ConsoleHook.dll"
             "TargetName" = "8:ConsoleHook.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_EEB1254F3D744B10A0BE0F3EAC30C892"
-            {
-            "SourcePath" = "8:..\\bin\\Win32\\Release\\ConsoleHook.pdb"
-            "TargetName" = "8:ConsoleHook.pdb"
             "Tag" = "8:"
             "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
             "Condition" = "8:"
@@ -358,7 +410,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ConsoleZ"
         "ProductCode" = "8:{5C264F13-FFD9-4C0B-B97D-303F49E2AB09}"
-        "PackageCode" = "8:{97B3B04F-DCE8-4311-B014-A6D3E0A334C0}"
+        "PackageCode" = "8:{C552EDC3-1538-4B61-8CA8-4F42CA269773}"
         "UpgradeCode" = "8:{5766C509-48AD-42E7-B022-D269D534B4B8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
