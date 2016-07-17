@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_BBF6A45E532A465B893A5603EA30EA3C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C96A99C71AA641D087BE1D58F4A99B47"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -61,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -77,6 +91,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -150,6 +172,26 @@
             {
             "SourcePath" = "8:..\\bin\\Win32\\Release\\FreeImagePlus.dll"
             "TargetName" = "8:FreeImagePlus.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BBF6A45E532A465B893A5603EA30EA3C"
+            {
+            "SourcePath" = "8:..\\Console\\res\\Console.ico"
+            "TargetName" = "8:Console.ico"
             "Tag" = "8:"
             "Folder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
             "Condition" = "8:"
@@ -273,15 +315,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ConsoleZ"
-        "ProductCode" = "8:{00323886-2E04-4776-89D4-116C956E5CA0}"
-        "PackageCode" = "8:{F2F0F7AF-C6D2-4813-B9E1-30DFCB94C951}"
+        "ProductCode" = "8:{5C264F13-FFD9-4C0B-B97D-303F49E2AB09}"
+        "PackageCode" = "8:{1A255791-2B5C-4631-95BA-24D20DF2BDEF}"
         "UpgradeCode" = "8:{5766C509-48AD-42E7-B022-D269D534B4B8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.17.0"
         "Manufacturer" = "8:ConsoleZ"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -289,9 +331,9 @@
         "Subject" = "8:"
         "ARPCONTACT" = "8:ryan@theyapps.com"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:A better console."
+        "ARPCOMMENTS" = "8:Modified version of Console 2 for a better experience under Windows Vista/7/8/10 and a better visual rendering."
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_BBF6A45E532A465B893A5603EA30EA3C"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -400,12 +442,12 @@
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
-            "IconIndex" = "3:128"
+            "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_1CFF5CAAC26B4ECDB320041C50236F54"
             "Folder" = "8:_D786946910B342F3902B9251906FEE1B"
             "WorkingFolder" = "8:_6EA1E9F10FCB43DEA5E2EA28134D27F3"
-            "Icon" = "8:_1CFF5CAAC26B4ECDB320041C50236F54"
+            "Icon" = "8:_BBF6A45E532A465B893A5603EA30EA3C"
             "Feature" = "8:"
             }
         }
