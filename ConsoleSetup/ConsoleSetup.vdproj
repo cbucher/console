@@ -98,6 +98,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
     }
@@ -316,13 +324,13 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ConsoleZ"
         "ProductCode" = "8:{5C264F13-FFD9-4C0B-B97D-303F49E2AB09}"
-        "PackageCode" = "8:{1A255791-2B5C-4631-95BA-24D20DF2BDEF}"
+        "PackageCode" = "8:{97B3B04F-DCE8-4311-B014-A6D3E0A334C0}"
         "UpgradeCode" = "8:{5766C509-48AD-42E7-B022-D269D534B4B8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:TRUE"
+        "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.17.0"
         "Manufacturer" = "8:ConsoleZ"
         "ARPHELPTELEPHONE" = "8:"
