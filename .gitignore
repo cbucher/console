@@ -24,3 +24,6 @@ help/xx*
 l10n/*/res/
 l10n/*/resource.h
 l10n/*/*.ucs2.rc
+
+ConsoleSetup/Release/
+ConsoleSetup/Debug/

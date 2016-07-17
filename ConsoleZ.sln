@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleHook", "ConsoleHook\ConsoleHook.vcxproj", "{69234D74-7133-48FF-8DDB-9901FFC4D7FF}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "l10n", "l10n\l10n.vcxproj", "{86262ED4-F5D5-4199-9BE3-D8C86054CD12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "help", "help\help.vcxproj", "{4A84CC27-64C4-436F-AA9F-D4A4A3D4835E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ConsoleSetup", "ConsoleSetup\ConsoleSetup.vdproj", "{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +108,14 @@ Global
 		{4A84CC27-64C4-436F-AA9F-D4A4A3D4835E}.Release Legacy|x64.ActiveCfg = Release|Win32
 		{4A84CC27-64C4-436F-AA9F-D4A4A3D4835E}.Release|Win32.ActiveCfg = Release|Win32
 		{4A84CC27-64C4-436F-AA9F-D4A4A3D4835E}.Release|x64.ActiveCfg = Release|Win32
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Debug Legacy|Win32.ActiveCfg = Debug
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Debug Legacy|x64.ActiveCfg = Debug
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Debug|Win32.ActiveCfg = Debug
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Debug|x64.ActiveCfg = Debug
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Release Legacy|Win32.ActiveCfg = Release
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Release Legacy|x64.ActiveCfg = Release
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Release|Win32.ActiveCfg = Release
+		{DC6A7F99-8EDF-43B0-B1B1-4FAFFA72F5AE}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
