@@ -967,16 +967,6 @@ void MainFrame::ShowHideWindow(ShowHideWindowAction action /*= ShowHideWindowAct
   {
     PostMessage(WM_ACTIVATEAPP, TRUE, 0);
 
-    POINT	cursorPos;
-    CRect	windowRect;
-
-    ::GetCursorPos(&cursorPos);
-    GetWindowRect(&windowRect);
-
-    if ((cursorPos.x < windowRect.left) || (cursorPos.x > windowRect.right)) cursorPos.x = windowRect.left + windowRect.Width()/2;
-    if ((cursorPos.y < windowRect.top) || (cursorPos.y > windowRect.bottom)) cursorPos.y = windowRect.top + windowRect.Height()/2;
-
-    ::SetCursorPos(cursorPos.x, cursorPos.y);
     ::SetForegroundWindow(m_hWnd);
   }
 
