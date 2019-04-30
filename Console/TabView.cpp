@@ -153,6 +153,22 @@ LRESULT TabView::OnCreate (UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 		}
 		break;
 
+	case ConsoleViewCreate::MOVE:
+		{
+			result = multisplitClass::OnCreate(uMsg, wParam, lParam, bHandled);
+			TRACE(L"multisplitClass::OnCreate returns %p\n", result);
+			if( result == 0 )
+			{
+				// modify the parent window
+				::SetParent(consoleViewCreate->consoleView->m_hWnd, m_hWnd);
+				::ShowWindow(consoleViewCreate->consoleView->m_hWnd, SW_SHOWNOACTIVATE);
+				// and insert
+				m_views.insert(ConsoleViewMap::value_type(consoleViewCreate->consoleView->m_hWnd, consoleViewCreate->consoleView));
+				multisplitClass::rootPane.window = consoleViewCreate->consoleView->m_hWnd;
+			}
+		}
+		break;
+
 	case ConsoleViewCreate::LOAD_WORKSPACE:
 		{
 			result = multisplitClass::OnCreate(uMsg, wParam, lParam, bHandled);
@@ -653,7 +669,7 @@ void TabView::Merge(std::shared_ptr<TabView> other, CMultiSplitPane::SPLITTYPE s
 
 /////////////////////////////////////////////////////////////////////////////
 
-bool TabView::CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed)
+bool TabView::CloseView(HWND hwnd, bool boolDetach, bool boolDestroyWindow, bool& boolTabClosed)
 {
 	boolTabClosed = false;
 
@@ -672,7 +688,9 @@ bool TabView::CloseView(HWND hwnd, bool boolDetach, bool& boolTabClosed)
 			if( boolDetach )
 				iter->second->GetConsoleHandler().Detach();
 
-			iter->second->DestroyWindow();
+			if( boolDestroyWindow )
+				iter->second->DestroyWindow();
+
 			m_views.erase(iter);
 
 			multisplitClass::Remove();

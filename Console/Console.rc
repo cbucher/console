@@ -724,11 +724,13 @@ BEGIN
         MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
         MENUITEM "Swap Views",                  ID_SPLIT_SWAP
         MENUITEM "Clone in New &Tab",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Settings...",                ID_EDIT_SETTINGS
     END
@@ -779,11 +781,13 @@ BEGIN
         MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Rename Tab",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Split &Horizontally",         ID_SPLIT_HORIZ
         MENUITEM "Split &Vertically",           ID_SPLIT_VERT
         MENUITEM "Swap Views",                  ID_SPLIT_SWAP
         MENUITEM "Clone in New &Tab",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Console Window",             ID_VIEW_CONSOLE
     END
@@ -921,12 +925,15 @@ BEGIN
     ID_SPLIT_SWAP           "Swap with the view that previously had focus\nSwap Views"
 
     ID_CLONE_IN_NEW_TAB     "Clone the current view in a new tab\nClone in New Tab"
+    ID_MOVE_IN_NEW_TAB      "Move the current view in a new tab\nMove in New Tab"
     ID_VIEW_FULLSCREEN      "Toggle full screen\nFull Screen"
     ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
     ID_GROUP_ALL            "Group all terminals so that any input sent to one of them, goes to all of them\nGroup All"
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
     ID_GROUP_TAB            "Group all terminals in the current tab so that any input sent to one of them, goes to all of them\nGroup Tab"
     ID_UNGROUP_TAB          "Remove grouping of all terminals in the current tab\nUngroup Tab"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -1026,7 +1033,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Run as different user"
 
-    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (c) 2011-2017\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
+    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (c) 2011-2019\nChristophe Bucher\n\na modified version of\nConsole 2 from\nMarko Bozikovic"
 END
 
 STRINGTABLE
@@ -1067,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Close tab"
     IDS_EDIT_RENAME_TAB      "Rename tab"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "Switch to next view"
     IDS_PREV_VIEW            "Switch to previous view"
@@ -1092,6 +1100,7 @@ BEGIN
     IDS_SPLIT_VERT           "Split vertically"
     IDS_SPLIT_SWAP           "Swap with the view that previously had focus"
     IDS_CLONE_IN_NEW_TAB     "Clone view in new tab"
+    IDS_MOVE_IN_NEW_TAB      "Move view in new tab"
     IDS_VIEW_FULLSCREEN      "Full Screen"
     IDS_VIEW_ALWAYS_ON_TOP   "Always on top"
     IDS_VIEW_ZOOM_100        "Zoom 100%"

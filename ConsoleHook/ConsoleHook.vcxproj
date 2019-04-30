@@ -412,9 +412,6 @@ copy "..\bin\$(Platform)\$(Configuration)\ConsoleHook.dll" "..\bin\x64\$(Configu
   <ItemGroup>
     <ResourceCompile Include="ConsoleHook.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

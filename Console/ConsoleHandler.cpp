@@ -1732,7 +1732,7 @@ void ConsoleHandler::WriteConsoleInput(KEY_EVENT_RECORD* pkeyEvent)
 	catch(std::exception& e)
 	{
 		TRACE(
-			L"WriteConsoleInput(pipe) fails (reason: %S)\n",
+			L"WriteConsoleInput(pipe) fails (reason: %S)\n"
 			L"  bKeyDown          = %s\n"
 			L"  dwControlKeyState = 0x%08lx\n"
 			L"  UnicodeChar       = 0x%04hx\n"
@@ -1740,7 +1740,7 @@ void ConsoleHandler::WriteConsoleInput(KEY_EVENT_RECORD* pkeyEvent)
 			L"  wVirtualKeyCode   = 0x%04hx\n"
 			L"  wVirtualScanCode  = 0x%04hx\n",
 			e.what(),
-			npmsg.data.keyEvent.bKeyDown?"TRUE":"FALSE",
+			npmsg.data.keyEvent.bKeyDown ? L"TRUE" : L"FALSE",
 			npmsg.data.keyEvent.dwControlKeyState,
 			npmsg.data.keyEvent.uChar.UnicodeChar,
 			npmsg.data.keyEvent.wRepeatCount,

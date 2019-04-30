@@ -63,12 +63,16 @@ class NoTaskbarParent
 
 //////////////////////////////////////////////////////////////////////////////
 
+static std::wstring g_strInstanceName;
+
+const std::wstring & GetInstanceName(void) { return g_strInstanceName; }
+
 void ParseCommandLine
 (
 	LPTSTR lptstrCmdLine,
-	wstring& strConfigFile,
+	std::wstring& strConfigFile,
 	bool& bReuse,
-	wstring& strSyncName,
+	std::wstring& strSyncName,
 	ShowHideWindowAction& visibility
 )
 {
@@ -79,24 +83,32 @@ void ParseCommandLine
 
 	for (int i = 0; i < argc; ++i)
 	{
-		if (wstring(argv[i]) == wstring(L"-c"))
+		const std::wstring arg(argv[i]);
+		if( arg == L"-c" )
 		{
 			// custom config file
 			++i;
-			if (i == argc) break;
+			if( i == argc ) break;
 			strConfigFile = argv[i];
 		}
-		else if (wstring(argv[i]) == wstring(L"-reuse"))
+		else if( arg == L"-reuse" )
 		{
 			bReuse = true;
 		}
-		else if (wstring(argv[i]) == wstring(L"-a"))
+		else if( arg == L"-i" )
 		{
 			++i;
-			if (i == argc) break;
+			if( i == argc ) break;
+			g_strInstanceName = argv[i];
+			bReuse = true;
+		}
+		else if( arg == L"-a" )
+		{
+			++i;
+			if( i == argc ) break;
 			strSyncName = argv[i];
 		}
-		else if( wstring(argv[i]) == wstring(L"-v") )
+		else if( arg == L"-v" )
 		{
 			// ConsoleZ visibility
 			++i;
@@ -118,7 +130,7 @@ static bool HandleReuse(LPCTSTR lpstrCmdLine)
 	SharedMemory<HWND> sharedInstance;
   try
   {
-    sharedInstance.Open(L"ConsoleZ", syncObjNone);
+    sharedInstance.Open(std::wstring(L"ConsoleZ") + g_strInstanceName, syncObjNone);
   }
   catch(Win32Exception& ex)
   {
@@ -355,7 +367,7 @@ int Run(LPTSTR lpstrCmdLine = NULL, int nCmdShow = SW_SHOWDEFAULT)
     SharedMemory<HWND> sharedInstance;
     if (bReuse)
     {
-      sharedInstance.Create(L"ConsoleZ", 1, syncObjNone, _T(""));
+      sharedInstance.Create(std::wstring(L"ConsoleZ") + g_strInstanceName, 1, syncObjNone, _T(""));
       sharedInstance = wndMain.m_hWnd;
     }
 

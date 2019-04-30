@@ -39,6 +39,22 @@ Changelog
     + added
     * fixed
 
+Changes in 1.19.0 (14 Apr 2019)
+
+    ! Ignore tab flashing if console view age is less than 3 seconds.
+    + Named instances.
+    + "-attach" command line switch.
+    + Move current view into a new tab.
+    + Record which tab had focus when saving workspace.
+    + Clone the whole current tab.
+    + Organize tabs within submenus.
+    * Selection length was not refreshed in status bar.
+    * Fix tab bar showing in full screen mode.
+    * Fix crash when spliting then selecting another pane.
+    * Tab background position was not preserved.
+    * Tabs menu doesn't switch to a tab after the 10th choice.
+    * If OpenClipboard fails, retry for 10 times with a 100ms delay.
+
 Changes in 1.18.3 (30 Apr 2018)
 
     ! WTL 10.0.7336

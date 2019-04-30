@@ -168,13 +168,20 @@ bool ConsoleSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 	if (backgroundImageType == bktypeImage)
 	{
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"file"),     imageData.strFilename);
-		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"relative"), imageData.bRelative ? true : false);
-		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"extend"),   imageData.bExtend ? true : false);
-		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"position"), static_cast<DWORD>(imageData.imagePosition));
 	}
 	else
 	{
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"file"), wstring(L""));
+	}
+
+	if( backgroundImageType == bktypeImage || backgroundImageType == bktypeBing )
+	{
+		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"relative"), imageData.bRelative ? true : false);
+		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"extend"), imageData.bExtend ? true : false);
+		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"position"), static_cast<DWORD>(imageData.imagePosition));
+	}
+	else
+	{
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"relative"), false);
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"extend"), false);
 		XmlHelper::SetAttribute(pImageElement, CComBSTR(L"position"), 0);
@@ -2001,6 +2008,7 @@ HotKeys::HotKeys()
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"closetab",           ID_FILE_CLOSE_TAB,       IDS_FILE_CLOSE_TAB      )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"renametab",          ID_EDIT_RENAME_TAB,      IDS_EDIT_RENAME_TAB     )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"clonetab",           ID_CLONE_TAB,            IDS_CLONE_TAB           )));
 
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"nextview",           ID_NEXT_VIEW,            IDS_NEXT_VIEW           )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"prevview",           ID_PREV_VIEW,            IDS_PREV_VIEW           )));
@@ -2023,6 +2031,7 @@ HotKeys::HotKeys()
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitvert",          ID_SPLIT_VERT,           IDS_SPLIT_VERT          )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"splitswap",          ID_SPLIT_SWAP,           IDS_SPLIT_SWAP          )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"clone",              ID_CLONE_IN_NEW_TAB,     IDS_CLONE_IN_NEW_TAB    )));
+	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"moveinnewtab",       ID_MOVE_IN_NEW_TAB,      IDS_MOVE_IN_NEW_TAB     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"fullscreen",         ID_VIEW_FULLSCREEN,      IDS_VIEW_FULLSCREEN     )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"zoom100",            ID_VIEW_ZOOM_100,        IDS_VIEW_ZOOM_100       )));
 	commands.push_back(std::shared_ptr<CommandData>(new CommandData(L"zoominc",            ID_VIEW_ZOOM_INC,        IDS_VIEW_ZOOM_INC       )));
@@ -2516,9 +2525,13 @@ bool TabSettings::Load(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 
 					if( tabData->backgroundImageType == bktypeImage )
 					{
+						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"file"), tabData->imageData.strFilename, wstring(L""));
+					}
+
+					if( tabData->backgroundImageType == bktypeImage || tabData->backgroundImageType == bktypeBing )
+					{
 						DWORD dwImagePosition = 0;
 
-						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"file"), tabData->imageData.strFilename, wstring(L""));
 						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"relative"), tabData->imageData.bRelative, false);
 						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"extend"), tabData->imageData.bExtend, false);
 						XmlHelper::GetAttribute(pImageElement, CComBSTR(L"position"), dwImagePosition, 0);
@@ -2640,13 +2653,20 @@ bool TabSettings::Save(const CComPtr<IXMLDOMElement>& pSettingsRoot)
 			if ((*itTab)->backgroundImageType == bktypeImage)
 			{
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"file"), (*itTab)->imageData.strFilename);
+			}
+			else
+			{
+				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"file"), wstring(L""));
+			}
+
+			if( (*itTab)->backgroundImageType == bktypeImage || (*itTab)->backgroundImageType == bktypeBing )
+			{
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"relative"), (*itTab)->imageData.bRelative ? true : false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"extend"), (*itTab)->imageData.bExtend ? true : false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"position"), static_cast<DWORD>((*itTab)->imageData.imagePosition));
 			}
 			else
 			{
-				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"file"), wstring(L""));
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"relative"), false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"extend"), false);
 				XmlHelper::SetAttribute(pNewImageElement, CComBSTR(L"position"), 0);

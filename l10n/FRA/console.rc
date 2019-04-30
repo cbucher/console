@@ -716,7 +716,7 @@ BEGIN
         MENUITEM "&Coller",                      ID_EDIT_PASTE
         MENUITEM "Coller la Sélection",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
-        MENUITEM "Insérer un Extrait de Code",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Insérer un Extrait",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Stopper le Défilement",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Reprendre le Défilement",            ID_EDIT_RESUME_SCROLLING
@@ -724,11 +724,13 @@ BEGIN
         MENUITEM "Rediriger les Évenements de la Souris",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Renommer l'Onglet",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Cloner l'Onglet",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
         MENUITEM "Échanger les Vues",                  ID_SPLIT_SWAP
         MENUITEM "Cloner dans un Nouvel Onglet",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Déplacer dans un Nouvel Onglet",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Paramétrage...",                ID_EDIT_SETTINGS
     END
@@ -771,7 +773,7 @@ BEGIN
         MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
         MENUITEM "Restore View",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Insérer un Extrait de Code",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Insérer un Extrait",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Stopper le Défilement",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Reprendre le Défilement",            ID_EDIT_RESUME_SCROLLING
@@ -779,11 +781,13 @@ BEGIN
         MENUITEM "Rediriger les Évenements de la Souris",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Renommer l'Onglet",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Cloner l'Onglet",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Diviser &Horizontallement",         ID_SPLIT_HORIZ
         MENUITEM "Diviser &Verticallement",           ID_SPLIT_VERT
         MENUITEM "Échanger les Vues",                  ID_SPLIT_SWAP
         MENUITEM "Cloner dans un Nouvel Onglet",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Déplacer dans un Nouvel Onglet",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Fenêtre de la Console",             ID_VIEW_CONSOLE
     END
@@ -879,7 +883,7 @@ BEGIN
     ID_EDIT_FIND            "Rechercher le text spécifié\nRechercher"
     ID_EDIT_PASTE           "Insérer le contenu du presse-papier\nColler"
     ID_PASTE_SELECTION      "Insérer le texte sélectionné\nColler la sélection"
-    ID_EDIT_INSERT_SNIPPET  "Insérer un extrait de code\nInsérer un extrait de code"
+    ID_EDIT_INSERT_SNIPPET  "Insérer un extrait\nInsérer un extrait"
     ID_EDIT_STOP_SCROLLING  "Arrêter le Défilement\nArrêter le Défilement"
     ID_EDIT_RESUME_SCROLLING "Reprendre le Défilement\nReprendre le Défilement"
     ID_EDIT_SELECT_ALL      "Sélectionner la totalité du document\nSélectionner Tout"
@@ -921,12 +925,15 @@ BEGIN
     ID_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus\nÉchange les Vues"
 
     ID_CLONE_IN_NEW_TAB     "Cloner la vue courante dans un nouvel onglet\nCloner dans un nouvel onglet"
+    ID_MOVE_IN_NEW_TAB      "Déplacer la vue courante dans un nouvel onglet\nDéplacer dans un nouvel onglet"
     ID_VIEW_FULLSCREEN      "Basculer en plein écran\nPlein Écran"
     ID_VIEW_ALWAYS_ON_TOP   "Basculer la fenêtre en mode toujours au premier plan\nToujours au Premier Plan"
     ID_GROUP_ALL            "Groupe tous les terminaux (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper Tous les Terminaux"
     ID_UNGROUP_ALL          "Supprime le regroupement pour tous les terminaux\nGrouper Tous les Terminaux"
     ID_GROUP_TAB            "Groupe tous les terminaux de l'onglet courant (toute entrée envoyée sur un terminal du groupe, sera envoyé à tous les terminaux du groupe)\nGrouper les Terminaux de l'Onglet"
     ID_UNGROUP_TAB          "Supprime le regroupement pour les terminaux de l'onglet courant\nGrouper les Terminaux de l'Onglet"
+
+    ID_CLONE_TAB            "Cloner l'ensemble de l'onglet en cours\nCloner l'Onglet"
 END
 
 STRINGTABLE
@@ -937,7 +944,7 @@ BEGIN
     IDS_SNIPPET_DESCRIPTION "Description"
     IDS_SNIPPET_CODE        "Code"
     IDS_SNIPPET_VERSION     "Version"
-    IDC_SNIPPET_INFORMATION "Affiche les informations de l'extrait de code"
+    IDC_SNIPPET_INFORMATION "Affiche les informations de l'extrait"
     IDC_SNIPPET_EDIT        "Éditer"
 END
 
@@ -1026,7 +1033,7 @@ BEGIN
 
     MSG_TABVIEW_RUNAS       "Lancer en tant qu'un autre utilisateur"
 
-    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (C) 2011-2017\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic"
+    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (C) 2011-2019\nChristophe Bucher\n\nversion modifiée de\nConsole 2\nécrit par\nMarko Bozikovic"
 END
 
 STRINGTABLE
@@ -1067,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Fermer l'onglet"
     IDS_EDIT_RENAME_TAB      "Renommer l'onglet"
+    IDS_CLONE_TAB            "Cloner l'onglet"
 
     IDS_NEXT_VIEW            "Basculer sur la vue suivante"
     IDS_PREV_VIEW            "Basculer sur la vue précédente"
@@ -1092,6 +1100,7 @@ BEGIN
     IDS_SPLIT_VERT           "Divise verticallement"
     IDS_SPLIT_SWAP           "Échange avec la vue qui avait précédemment le focus."
     IDS_CLONE_IN_NEW_TAB     "Cloner la vue dans un nouvel onglet"
+    IDS_MOVE_IN_NEW_TAB      "Déplacer dans un nouvel onglet"
     IDS_VIEW_FULLSCREEN      "Plein Écran"
     IDS_VIEW_ALWAYS_ON_TOP   "Toujours au premier plan"
     IDS_VIEW_ZOOM_100        "Zoom 100%"
@@ -1131,7 +1140,7 @@ IDS_DUMP_BUFFER          "Dump screen buffer"
 IDS_SHOW_CONTEXT_MENU_1  "Affiche le menu contextuel #1"
 IDS_SHOW_CONTEXT_MENU_2  "Affiche le menu contextuel #2"
 IDS_SHOW_CONTEXT_MENU_3  "Affiche le menu contextuel #3"
-ID_SHOW_CONTEXT_MENU_SNIPPETS "Affiche le menu contextuel des extraits de code"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "Affiche le menu contextuel des extraits"
 
 IDS_SEND_CTRL_C          "Envoyer l'événement CTRL-C"
 
@@ -1182,7 +1191,7 @@ IDS_MOUSE_LINK           "Cliquer sur le lien"
 IDS_MOUSE_MENU1          "Menu contextuel #1"
 IDS_MOUSE_MENU2          "Menu contextuel #2"
 IDS_MOUSE_MENU3          "Menu contextuel #3"
-IDS_MOUSE_SNIPPETS       "Menu contextuel des extraits de code"
+IDS_MOUSE_SNIPPETS       "Menu contextuel des extraits"
 END
 
 STRINGTABLE

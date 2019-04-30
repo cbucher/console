@@ -45,6 +45,7 @@ struct CommandLineOptions
 		, visibility(ShowHideWindowAction::SHWA_DONOTHING)
 		, strWorkingDir()
 		, strEnvironment()
+		, bAttachConsoles(false)
 	{
 	}
 
@@ -59,6 +60,7 @@ struct CommandLineOptions
 	ShowHideWindowAction visibility;
 	std::wstring strWorkingDir;
 	std::wstring strEnvironment;
+	bool bAttachConsoles;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -194,7 +196,7 @@ class MainFrame
 
 			COMMAND_RANGE_HANDLER(ID_NEW_TAB_1, ID_NEW_TAB_1 + 99, OnFileNewTab)
 			COMMAND_ID_HANDLER(ID_FILE_NEW_TAB, OnFileNewTab)
-			COMMAND_RANGE_HANDLER(ID_SWITCH_TAB_1, ID_SWITCH_TAB_1 + 9, OnSwitchTab)
+			COMMAND_RANGE_HANDLER(ID_SWITCH_TAB_1, ID_SWITCH_TAB_1 + 99, OnSwitchTab)
 			COMMAND_ID_HANDLER(ID_NEXT_TAB, OnNextTab)
 			COMMAND_ID_HANDLER(ID_PREV_TAB, OnPrevTab)
 			COMMAND_ID_HANDLER(ID_MOVE_TAB_LEFT,  OnMoveTab)
@@ -221,6 +223,7 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_GROUP_TAB   , OnGroupTab)
 			COMMAND_ID_HANDLER(ID_UNGROUP_TAB , OnUngroupTab)
 			COMMAND_ID_HANDLER(ID_CLONE_IN_NEW_TAB             , OnCloneInNewTab)
+			COMMAND_ID_HANDLER(ID_MOVE_IN_NEW_TAB              , OnMoveInNewTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_TAB               , OnFileCloseTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_OTHER_TABS        , OnFileCloseTab)
 			COMMAND_ID_HANDLER(ID_FILE_CLOSE_TABS_TO_THE_LEFT  , OnFileCloseTab)
@@ -276,6 +279,7 @@ class MainFrame
 			COMMAND_ID_HANDLER(ID_MERGE_VERTICALLY,        OnMergeTabs)
 			COMMAND_ID_HANDLER(ID_MAXIMIZE_VIEW,           OnMaximizeView)
 			COMMAND_ID_HANDLER(ID_RESTORE_VIEW,            OnMaximizeView)
+			COMMAND_ID_HANDLER(ID_CLONE_TAB,               OnCloneTab)
 
 			COMMAND_RANGE_HANDLER(ID_EXTERNAL_COMMAND_1, (ID_EXTERNAL_COMMAND_1 + EXTERNAL_COMMANDS_COUNT - 1), OnExternalCommand)
 			COMMAND_RANGE_HANDLER(ID_SNIPPET_ID_FIRST, ID_SNIPPET_ID_LAST, OnSnippet)
@@ -351,10 +355,12 @@ class MainFrame
 		LRESULT OnMaximizeView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnSwap(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnMoveInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnUngroupAll(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnGroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 		LRESULT OnUngroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+		LRESULT OnCloneTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
 		LRESULT OnFileExit(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
@@ -418,7 +424,7 @@ class MainFrame
 
 		void ActivateApp(void);
 		bool CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& consoleOptions = ConsoleOptions());
-		bool CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData);
+		bool CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData, int *nTab = nullptr);
 		bool CreateSafeConsole();
 		void CloseTab(CTabViewTabItem* pTabItem);
 

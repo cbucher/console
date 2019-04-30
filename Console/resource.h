@@ -417,6 +417,8 @@
 #define ID_MERGE_VERTICALLY             2944
 #define ID_MAXIMIZE_VIEW                2945
 #define ID_RESTORE_VIEW                 2946
+#define ID_MOVE_IN_NEW_TAB              2947
+#define ID_CLONE_TAB                    2948
 
 #define IDC_DUMP_BUFFER                 3000
 
@@ -534,6 +536,8 @@
 #define IDS_FORWARD_MOUSE_EVENTS        6095
 #define IDS_MAXIMIZE_VIEW               6096
 #define IDS_RESTORE_VIEW                6097
+#define IDS_MOVE_IN_NEW_TAB             6098
+#define IDS_CLONE_TAB                   6099
 
 #define IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT 6900
 #define IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT  6901

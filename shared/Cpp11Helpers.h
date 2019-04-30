@@ -64,8 +64,16 @@ class ClipboardHelper
 	bool bIsClipboardOpened;
 public:
 	ClipboardHelper()
+		: bIsClipboardOpened(false)
 	{
-		this->bIsClipboardOpened = ::OpenClipboard(NULL) != 0;
+		// to workaround OpenClipboard failure when Clipboard is busy
+		// we mimic the .net API
+		// the .net API retries for 10 times with a 100ms delay
+		for( int retries = 0; !this->bIsClipboardOpened && retries < 10; ++retries )
+		{
+			if( retries > 0 ) ::Sleep(100);
+			this->bIsClipboardOpened = ::OpenClipboard(nullptr) != 0;
+		}
 		if( !this->bIsClipboardOpened )
 			Win32Exception::ThrowFromLastError("OpenClipboard");
 	}

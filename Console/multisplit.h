@@ -116,6 +116,7 @@ namespace WTL
 			, y         (y)
 			, width     (width)
 			, height    (height)
+			, visible   (true)
 			, splitType (NONE)
 			, splitRatio(100)
 			, pane0     (0)
@@ -332,7 +333,7 @@ namespace WTL
 
 		int getSplitBarDelta(POINT point)
 		{
-			if( this->pane0 == NULL )
+			if( this->pane0 == nullptr )
 				return 0;
 
 			if( splitType == HORIZONTAL )
@@ -392,7 +393,7 @@ namespace WTL
 
 		void moveSplitBar(int delta)
 		{
-			if( this->pane0 == NULL )
+			if( this->pane0 == nullptr )
 				return;
 
 			if( delta == 0 )
@@ -508,7 +509,8 @@ namespace WTL
 				return nullptr;
 			}
 
-			return this->get(ZOOM)->getPane(point);
+			auto zoomPane = this->get(ZOOM);
+			return zoomPane ? zoomPane->getPane(point) : nullptr;
 		}
 
 		CMultiSplitPane* get(HWND window)
@@ -524,22 +526,22 @@ namespace WTL
 					return this->pane1->get(window);
 			}
 			else
-				return NULL;
+				return nullptr;
 		}
 
 		CMultiSplitPane* get(POINT point)
 		{
-			CMultiSplitPane* result = NULL;
+			CMultiSplitPane* result = nullptr;
 			if( this->isInRect(point) )
 			{
 				if( this->pane0 )
 				{
 					result = this->pane0->get(point);
-					if( result == NULL )
+					if( result == nullptr )
 						result = this->pane1->get(point);
 				}
 
-				if( result == NULL )
+				if( result == nullptr )
 					result = this;
 			}
 			return result;
@@ -556,7 +558,7 @@ namespace WTL
 			if( result && result->pane0 )
 				return result;
 			else
-				return NULL;
+				return nullptr;
 		}
 
 		CMultiSplitPane* getPane(POINT point)
@@ -565,7 +567,7 @@ namespace WTL
 			if( result && result->pane0 == 0 )
 				return result;
 			else
-				return NULL;
+				return nullptr;
 		}
 
 		void draw(CDCHandle dc)

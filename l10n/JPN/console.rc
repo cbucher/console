@@ -724,11 +724,13 @@ BEGIN
         MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "タブ名の変更",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "水平方向に分割",         ID_SPLIT_HORIZ
         MENUITEM "垂直方向に分割",           ID_SPLIT_VERT
         MENUITEM "ビューの入れ替え",                  ID_SPLIT_SWAP
         MENUITEM "新しいタブにクローンを作成",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "設定",                ID_EDIT_SETTINGS
     END
@@ -779,11 +781,13 @@ BEGIN
         MENUITEM "Forward Mouse Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "タブ名の変更",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "水平方向に分割",         ID_SPLIT_HORIZ
         MENUITEM "垂直方向に分割",           ID_SPLIT_VERT
         MENUITEM "ビューの入れ替え",                  ID_SPLIT_SWAP
         MENUITEM "新しいタブにクローンを作成",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "コンソール ウィンドウ",             ID_VIEW_CONSOLE
     END
@@ -921,12 +925,15 @@ BEGIN
     ID_SPLIT_SWAP           "前のフォーカス画面と交換\nビューのスワップ"
 
     ID_CLONE_IN_NEW_TAB     "現在のビューを新しいタブにクローン\n新しいタブにクローン"
+    ID_MOVE_IN_NEW_TAB      "Move the current view in a new tab\nMove in New Tab"
     ID_VIEW_FULLSCREEN      "フルスクリーンの切り替え\nフルスクリーン"
     ID_VIEW_ALWAYS_ON_TOP   "Toggle window always on top\nAlways On Top"
     ID_GROUP_ALL            "Group all terminals so that any input sent to one of them, goes to all of them\nGroup All"
     ID_UNGROUP_ALL          "Remove grouping from all terminals\nUngroup All"
     ID_GROUP_TAB            "Group all terminals in the current tab so that any input sent to one of them, goes to all of them\nGroup Tab"
     ID_UNGROUP_TAB          "Remove grouping of all terminals in the current tab\nUngroup Tab"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -1067,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "タブを閉じる"
     IDS_EDIT_RENAME_TAB      "タブ名を変更"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "次のビューに切り替え"
     IDS_PREV_VIEW            "前のビューに切り替え"
@@ -1092,6 +1100,7 @@ BEGIN
     IDS_SPLIT_VERT           "垂直方向に分割"
     IDS_SPLIT_SWAP           "前のフォーカス画面と交換"
     IDS_CLONE_IN_NEW_TAB     "新しいタブにビューを複製"
+    IDS_MOVE_IN_NEW_TAB      "Move view in new tab"
     IDS_VIEW_FULLSCREEN      "フルスクリーン"
     IDS_VIEW_ALWAYS_ON_TOP   "常に前面に表示"
     IDS_VIEW_ZOOM_100        "ズームのリセット"

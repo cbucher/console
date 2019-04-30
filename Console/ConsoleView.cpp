@@ -82,6 +82,7 @@ ConsoleView::ConsoleView(MainFrame& mainFrame, HWND hwndTabView, std::shared_ptr
 #ifdef CONSOLEZ_CHRONOS
 , m_timePoint1(std::chrono::high_resolution_clock::now())
 #endif // CONSOLEZ_CHRONOS
+, m_startTime(std::chrono::system_clock::now())
 {
 	m_coordSearchText.X = -1;
 	m_coordSearchText.Y = -1;
@@ -1262,9 +1263,14 @@ LRESULT ConsoleView::OnUpdateConsoleView(UINT /*uMsg*/, WPARAM wParam, LPARAM /*
 			(!m_bFlashTimerRunning)
 		)
 		{
-			m_dwFlashes = 0;
-			m_bFlashTimerRunning = true;
-			SetTimer(FLASH_TAB_TIMER, 500);
+			// ignore tab flashing if console view age is less than 3 seconds
+			auto age = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - m_startTime).count();
+			if( age > 3LL )
+			{
+				m_dwFlashes = 0;
+				m_bFlashTimerRunning = true;
+				SetTimer(FLASH_TAB_TIMER, 500);
+			}
 		}
 
 		return 0;

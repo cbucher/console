@@ -724,11 +724,13 @@ BEGIN
         MENUITEM "Weitergabe Maus Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Teilen &horizontal",         ID_SPLIT_HORIZ
         MENUITEM "Teilen &vertikal",           ID_SPLIT_VERT
         MENUITEM "Anzeige auswechseln",                  ID_SPLIT_SWAP
         MENUITEM "In neuen Tab duplizieren",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "Einstellungen...",                ID_EDIT_SETTINGS
     END
@@ -779,11 +781,13 @@ BEGIN
         MENUITEM "Weitergabe Maus Events",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Tab umbenennen",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Teilen &horizontal",         ID_SPLIT_HORIZ
         MENUITEM "Teilen &vertikal",           ID_SPLIT_VERT
         MENUITEM "Anzeige auswechseln",                  ID_SPLIT_SWAP
         MENUITEM "In neuen Tab duplizieren",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "Konsolen Fenster",             ID_VIEW_CONSOLE
     END
@@ -921,12 +925,15 @@ BEGIN
     ID_SPLIT_SWAP           "Mit vorheriger Ansicht mit Fokus austauschen\nAnsicht austauschen"
 
     ID_CLONE_IN_NEW_TAB     "Ansicht in neuem Tab klonen\nIn neuem Tab klonen"
+    ID_MOVE_IN_NEW_TAB      "Move the current view in a new tab\nMove in New Tab"
     ID_VIEW_FULLSCREEN      "Vollbild ein-/ausschalten\nVollbild"
     ID_VIEW_ALWAYS_ON_TOP   "Fenster immer oben ein-/ausschalten\nImmer oben"
     ID_GROUP_ALL            "Alle Konsolen gruppieren, so dass Eingaben auf einem Tab auf allen anderen ausgeführt werden.\nTab Gruppe"
     ID_UNGROUP_ALL          "Alle Gruppierungen aufheben\nGruppierungen aufheben"
     ID_GROUP_TAB            "Alle Konsolen im aktuellen Tab gruppieren, so dass Eingaben in diesem Tab an allen ausgeführt werden.\nTab Gruppe"
     ID_UNGROUP_TAB          "Gruppierung von aktuellen Tab aufheben\nGruppierungen aufheben"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -1067,6 +1074,7 @@ BEGIN
 
     IDS_FILE_CLOSE_TAB       "Tab schließen"
     IDS_EDIT_RENAME_TAB      "Tab umbenennen"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "Zur nächsten Ansicht wechseln"
     IDS_PREV_VIEW            "Zur vorherigen Ansicht wechseln"
@@ -1092,6 +1100,7 @@ BEGIN
     IDS_SPLIT_VERT           "Vertikal teilen"
     IDS_SPLIT_SWAP           "Mit vorheriger Fokus-Ansicht austauschen"
     IDS_CLONE_IN_NEW_TAB     "Ansicht in neuem Tab klonen"
+    IDS_MOVE_IN_NEW_TAB      "Move view in new tab"
     IDS_VIEW_FULLSCREEN      "Vollbild"
     IDS_VIEW_ALWAYS_ON_TOP   "Immer oben"
     IDS_VIEW_ZOOM_100        "Zoom 100%"

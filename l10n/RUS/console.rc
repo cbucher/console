@@ -69,7 +69,7 @@ CAPTION "О программе"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,130,130,50,14
-    PUSHBUTTON      "Веб-сайт",IDC_BTN_HOME_PAGE,130,110,50,14
+    PUSHBUTTON      "Сайт",IDC_BTN_HOME_PAGE,130,110,50,14
 #ifndef _USE_AERO
     CTEXT           "",IDC_STATIC_VERSION,15,41,100,96
     ICON            IDR_MAINFRAME,IDC_APPICON,55,26,20,20
@@ -95,7 +95,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_TREE_SECTIONS,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_NOSCROLL | WS_BORDER | WS_TABSTOP,7,7,98,265
     CONTROL         "",IDC_CHILD_PLACEHOLDER,"Static",SS_BLACKFRAME,112,7,235,265
-    CONTROL         "Сохранять настройки в каталоге пользователя",IDC_CHECK_USER_DATA_DIR,
+    CONTROL         "Сохранять настройки в папке пользователя",IDC_CHECK_USER_DATA_DIR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,280,300,10
     LTEXT           "Настройки, помеченные *, требуют перезапуска программы",IDC_STATIC,7,296,230,8
     PUSHBUTTON      "OK",IDOK,241,300,50,14
@@ -169,7 +169,7 @@ BEGIN
     EDITTEXT        IDC_WINDOW_ICON, 55, 128, 150, 14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON, 210, 128, 16, 14
     CONTROL         "И&спользовать иконки вкладок",IDC_CHECK_USE_TAB_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 55, 145, 170, 16
-    GROUPBOX        "Заголовок && иконка",IDC_STATIC, 0, 0, 235, 165
+    GROUPBOX        "Заголовок и иконка",IDC_STATIC, 0, 0, 235, 165
 
     CONTROL         "Размер окна*",IDC_CHECK_STATE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,177,60,16
     COMBOBOX        IDC_COMBO_STATE,85,179,88,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -185,10 +185,10 @@ BEGIN
     CONTROL         "Сохранять",IDC_CHECK_SAVE_POSITION,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,193,52,16
 
     CONTROL         "Начальный размер*",IDC_CHECK_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,209,60,16
-    RTEXT           "W:",IDC_STATIC,73,213,10,8
+    RTEXT           "Ш:",IDC_STATIC,73,213,10,8
     EDITTEXT        IDC_POS_W,85,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_W,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,107,196,11,14
-    RTEXT           "H:",IDC_STATIC,124,213,10,8
+    RTEXT           "В:",IDC_STATIC,124,213,10,8
     EDITTEXT        IDC_POS_H,136,211,37,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_H,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,160,196,11,14
     CONTROL         "Сохранять",IDC_CHECK_SAVE_SIZE,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,179,209,52,16
@@ -274,11 +274,11 @@ BEGIN
     CONTROL         "П&олосы прокрутки",IDC_CHECK_SHOW_SCROLLBARS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,90,100,16
 
     CONTROL         "&Вкладки",IDC_CHECK_SHOW_TABS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,26,95,16
-    CONTROL         "&если не одна",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,42,85,16
-    CONTROL         "внизу окна",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,58,85,16
+    CONTROL         "&Если не одна",IDC_CHECK_HIDE_SINGLE_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,42,85,16
+    CONTROL         "Внизу окна",IDC_CHECK_TABS_ON_BOTTOM,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,58,85,16
     CONTROL         "Скрывать иконки",IDC_CHECK_HIDE_TAB_ICONS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,74,85,16
     CONTROL         "Скрывать кнопку закрытия",IDC_CHECK_HIDE_TAB_CLOSE_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,90,85,16
-    CONTROL         "Hide new tab button",IDC_CHECK_HIDE_TAB_NEW_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,106,85,16
+    CONTROL         "Скрывать кнопку новой вкладки",IDC_CHECK_HIDE_TAB_NEW_BUTTON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,140,106,85,16
 
 END
 
@@ -365,7 +365,7 @@ BEGIN
     CONTROL         "Копировать по щелчку на выделенном",IDC_CHECK_SENSITIVE_COPY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,43,100,16
     CONTROL         "Убирать концевые пробелы",IDC_CHECK_TRIM_SPACES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,43,100,16
     CONTROL         "Копировать как Rich Text Format",IDC_CHECK_RTF,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,59,100,16
-    GROUPBOX        "Копирование && Вставка",IDC_STATIC,0,0,235,78
+    GROUPBOX        "Копирование и вставка",IDC_STATIC,0,0,235,78
 
     CONTROL         "Windows (CR+LF)",IDC_RADIO_COPY_NEWLINE_CHAR,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,10,91,100,16
     CONTROL         "Unix (LF)",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,10,107,100,16
@@ -383,7 +383,7 @@ BEGIN
     LTEXT           "раз(а)",IDC_STATIC_FLASHES,55,160,55,8
     EDITTEXT        IDC_TAB_FLASHES,20,158,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP,WS_EX_RIGHT
     CONTROL         "",IDC_SPIN_TAB_FLASHES,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,75,158,11,14
-    CONTROL         "и остается выделеной",IDC_CHECK_LEAVE_HIGHLIGHTED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,19,173,90,16
+    CONTROL         "и остаётся выделенной",IDC_CHECK_LEAVE_HIGHLIGHTED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,19,173,90,16
     GROUPBOX        "Неактивная вкладка...",IDC_STATIC,0,130,115,63,WS_GROUP
 
     CONTROL         "Прокрутка на один экран",IDC_PAGE_SCROLL,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,130,141,100,16
@@ -408,8 +408,8 @@ BEGIN
     CONTROL         "Разрешить запуск нескольких копий",IDC_CHECK_MULTI_INSTANCES,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,130,11,100,16
     GROUPBOX        "Копии программы",IDC_STATIC,120,0,115,33,WS_GROUP
 
-    CONTROL         "Открывать новую оболочку в текущей директории",IDC_CHECK_OPEN_CURRENT_DIR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,46,220,16
-    GROUPBOX        "Разделение/Клонирование",IDC_STATIC,0,35,235,33
+    CONTROL         "Открывать новую оболочку в текущей папке",IDC_CHECK_OPEN_CURRENT_DIR,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,46,220,16
+    GROUPBOX        "Разделение/клонирование",IDC_STATIC,0,35,235,33
 
     CONTROL         "Использовать идентификационные инструменты",IDC_CHECK_USE_CREDPROV,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,81,220,16
     GROUPBOX        "Запуск от имени другого пользователя",IDC_STATIC,0,70,235,33
@@ -418,7 +418,7 @@ BEGIN
     CONTROL         "Выход при закрытии последней вкладки",IDC_CHECK_EXIT_ON_CLOSING_OF_LAST_TAB,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,132,220,16
     CONTROL         "Предупреждение при закрытии нескольких вкладок",IDC_CHECK_CONFIRM_CLOSE_MULTI,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,148,220,16
     CONTROL         "Сохранять рабочее пространство при выходе",IDC_CHECK_SAVE_WORKSPACE_ON_EXIT,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,10,164,220,16
-    GROUPBOX        "Закрытие/Выделение в отдельное окно",IDC_STATIC,0,105,235,80,WS_GROUP
+    GROUPBOX        "Закрытие/выделение в отдельное окно",IDC_STATIC,0,105,235,80,WS_GROUP
 END
 
 IDD_SETTINGS_TABS_1 DIALOGEX 0, 0, 224, 172
@@ -431,8 +431,8 @@ BEGIN
     RTEXT           "Иконка:",IDC_STATIC, 8, 34, 30, 8
     EDITTEXT        IDC_TAB_ICON, 50, 31, 93, 14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_ICON, 145, 31, 15, 14
-    CONTROL         "Иконка комндной оболочки",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 163, 26, 57, 24
-    GROUPBOX        "Заголовок && иконка",IDC_STATIC,0,3,221,50,0,WS_EX_TRANSPARENT
+    CONTROL         "Иконка командной оболочки",IDC_CHECK_DEFAULT_ICON,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 163, 26, 57, 24
+    GROUPBOX        "Заголовок и иконка",IDC_STATIC,0,3,221,50,0,WS_EX_TRANSPARENT
 
     RTEXT           "&Командная оболочка:",IDC_STATIC,8,71,75,8
     EDITTEXT        IDC_TAB_SHELL,85,68,112,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
@@ -440,7 +440,7 @@ BEGIN
     RTEXT           "&Стартовая папка:",IDC_STATIC,8,86,75,8
     EDITTEXT        IDC_TAB_INIT_DIR,85,83,112,14,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
     PUSHBUTTON      "...",IDC_BTN_BROWSE_DIR,200,83,15,14
-    RTEXT           "Приоретет:",IDC_STATIC,8,101,45,8
+    RTEXT           "Приоритет:",IDC_STATIC,8,101,45,8
     COMBOBOX        IDC_COMBO_BASE_PRIORITY,55,99,90,53,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     RTEXT           "Запускать от имени",IDC_STATIC,8,116,70,8
@@ -459,7 +459,7 @@ EXSTYLE WS_EX_TRANSPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Однотонный",IDC_RADIO_BK_TYPE,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE | WS_GROUP,5,8,215,10
-    CONTROL         "Рисунок",IDC_RADIO_BK_TYPE2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,33,105,10
+    CONTROL         "Изображение",IDC_RADIO_BK_TYPE2,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,33,105,10
     CONTROL         "Обои",IDC_RADIO_BK_TYPE3,"Button",BS_AUTORADIOBUTTON | BS_MULTILINE,5,91,215,10
     CONTROL         "Bing", IDC_RADIO_BK_TYPE4, "Button", BS_AUTORADIOBUTTON | BS_MULTILINE, 115, 33, 105, 10
     RTEXT           "&Цвет:",IDC_STATIC_BK_COLOR,23,20,20,8
@@ -698,8 +698,8 @@ BEGIN
         MENUITEM "З&акрыть  активную вкладку",                 ID_CLOSE_VIEW
         MENUITEM "&Выделить вкладку в отдельное окно",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
-        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM "Развернуть на весь экран",               ID_MAXIMIZE_VIEW
+        MENUITEM "Восстановить размер",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
         MENUITEM "Прикрепить консоли",             ID_ATTACH_CONSOLES
         MENUITEM SEPARATOR
@@ -716,26 +716,28 @@ BEGIN
         MENUITEM "&Вставить",                      ID_EDIT_PASTE
         MENUITEM "Вставить выделенное",             ID_PASTE_SELECTION
         MENUITEM SEPARATOR
-        MENUITEM "Вставить сниппет",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Вставить фрагмент",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Возобновить прокрутку",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Отслеживать клавиши и колесико мыши",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Отслеживать клавиши и колесо мыши",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Разделить по &горизонтали",         ID_SPLIT_HORIZ
         MENUITEM "&Разделить по вертикали",           ID_SPLIT_VERT
         MENUITEM "Поменять местами",                  ID_SPLIT_SWAP
         MENUITEM "К&лонировать в новой  вкладке",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Настройки...",                ID_EDIT_SETTINGS
     END
     POPUP "Вид"
     BEGIN
         MENUITEM "&Окно консоли",             ID_VIEW_CONSOLE
-        MENUITEM "Инфо о шрифте...",         ID_FONT_INFO
+        MENUITEM "Информация о шрифте...",         ID_FONT_INFO
         MENUITEM SEPARATOR
         MENUITEM "&Меню",                       ID_VIEW_MENU
         MENUITEM "&Панель инструментов",                    ID_VIEW_TOOLBAR
@@ -743,7 +745,7 @@ BEGIN
         MENUITEM "&Строка состояния",                 ID_VIEW_STATUS_BAR
         MENUITEM "&Вкладки",                       ID_VIEW_TABS
         MENUITEM SEPARATOR
-        MENUITEM "Во весь &экран",                ID_VIEW_FULLSCREEN
+        MENUITEM "На весь &экран",                ID_VIEW_FULLSCREEN
         MENUITEM "Прозрачность",         ID_SWITCH_TRANSPARENCY
         MENUITEM "Поверх всех окон",               ID_VIEW_ALWAYS_ON_TOP
     END
@@ -768,22 +770,24 @@ BEGIN
         MENUITEM "З&акрыть  активную вкладку",                 ID_CLOSE_VIEW
         MENUITEM "&Выделить вкладку в отдельное окно",                ID_DETACH_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Maximize View",               ID_MAXIMIZE_VIEW
-        MENUITEM "Restore View",                ID_RESTORE_VIEW
+        MENUITEM "Развернуть на весь экран",               ID_MAXIMIZE_VIEW
+        MENUITEM "Восстановить размер",                ID_RESTORE_VIEW
         MENUITEM SEPARATOR
-        MENUITEM "Вставить сниппет",              ID_EDIT_INSERT_SNIPPET
+        MENUITEM "Вставить фрагмент",              ID_EDIT_INSERT_SNIPPET
         MENUITEM SEPARATOR
         MENUITEM "Остановить &прокрутку",             ID_EDIT_STOP_SCROLLING
         MENUITEM "Возобновить прокрутку",            ID_EDIT_RESUME_SCROLLING
         MENUITEM SEPARATOR
-        MENUITEM "Отслеживать клавиши и колесико мыши",        ID_FORWARD_MOUSE_EVENTS
+        MENUITEM "Отслеживать клавиши и колесо мыши",        ID_FORWARD_MOUSE_EVENTS
         MENUITEM SEPARATOR
         MENUITEM "&Переименовать вкладку",                 ID_EDIT_RENAME_TAB
+        MENUITEM "Clone Tab",                   ID_CLONE_TAB
         MENUITEM SEPARATOR
         MENUITEM "Разделить по &горизонтали",         ID_SPLIT_HORIZ
         MENUITEM "&Разделить по вертикали",           ID_SPLIT_VERT
         MENUITEM "Поменять местами",                  ID_SPLIT_SWAP
         MENUITEM "К&лонировать в новой  вкладке",           ID_CLONE_IN_NEW_TAB
+        MENUITEM "Move in New Tab",             ID_MOVE_IN_NEW_TAB
         MENUITEM SEPARATOR
         MENUITEM "&Окно консоли",             ID_VIEW_CONSOLE
     END
@@ -864,25 +868,25 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_APP_ABOUT            "Показать информацию о программе, номер версии и копирайты\nО программе"
+    ID_APP_ABOUT            "Показать информацию о программе, номер версии и авторские права\nО программе"
     ID_APP_EXIT             "Закрыть приложение с предложением сохранить документы\nВыход"
     ID_HELP                 "Открыть файл справки\nСправка"
-    ID_DIAGNOSE             "Создать диагностический отчет\nДиагностика"
+    ID_DIAGNOSE             "Создать диагностический отчёт\nДиагностика"
 END
 
 STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Очистить экран\nОчистить"
-    ID_EDIT_CLEAR_ALL       "Стереть все\nСтереть все"
-    ID_EDIT_COPY            "Копировать выделение в Буфер обмена\nКопировать"
-    ID_EDIT_CUT             "Вырезать выделение в Буфер обмена\nВырезать"
-    ID_EDIT_FIND            "Найти определенный текст\nНайти"
-    ID_EDIT_PASTE           "Вставить содержимое Буфера обмена\nВставить"
+    ID_EDIT_CLEAR_ALL       "Стереть всё\nСтереть всё"
+    ID_EDIT_COPY            "Копировать выделение в буфер обмена\nКопировать"
+    ID_EDIT_CUT             "Вырезать выделение в буфер обмена\nВырезать"
+    ID_EDIT_FIND            "Найти определённый текст\nНайти"
+    ID_EDIT_PASTE           "Вставить содержимое буфера обмена\nВставить"
     ID_PASTE_SELECTION      "Вставить выделенный текст\nВставить выделение"
-    ID_EDIT_INSERT_SNIPPET  "Вставить сниппет\nВставить сниппет"
+    ID_EDIT_INSERT_SNIPPET  "Вставить фрагмент\nВставить фрагмент"
     ID_EDIT_STOP_SCROLLING  "Остановить прокрутку\nОстановить прокрутку"
     ID_EDIT_RESUME_SCROLLING "Возобновить прокрутку\nВозобновить прокрутку"
-    ID_EDIT_SELECT_ALL      "Выделить весь документ\nВыделить все"
+    ID_EDIT_SELECT_ALL      "Выделить весь документ\nВыделить всё"
     ID_EDIT_RENAME_TAB      "Переименовать активную вкладку\nПереименовать вкладку"
     ID_EDIT_SETTINGS        "Открыть диалог настроек\nНастройки..."
 END
@@ -891,17 +895,17 @@ STRINGTABLE
 BEGIN
     ID_FILE_NEW_TAB         "Открыть новую вкладку\nНовая вкладка"
     ID_VIEW_CONSOLE         "Показать или скрыть консоль"
-    ID_FORWARD_MOUSE_EVENTS "Отслеживать клавиши и колесико мыши"
+    ID_FORWARD_MOUSE_EVENTS "Отслеживать клавиши и колесо мыши"
     ID_FILE_CLOSE_TAB       "Закрыть текущую вкладку\nЗакрыть вкладку"
     ID_FILE_CLOSE_OTHER_TABS        "Закрыть все вкладки, кроме текущей"
     ID_FILE_CLOSE_TABS_TO_THE_LEFT  "Закрыть все вкладки слева от текущей"
     ID_FILE_CLOSE_TABS_TO_THE_RIGHT "Закрыть все вкладки справа от текущей"
     ID_FONT_INFO            "Показать информацию о шрифте скрытой консоли"
-    ID_VIEW_MENU            "Скрыть/показать меню"
-    ID_VIEW_TABS            "Скрыть/показать вкладки"
-    ID_VIEW_TOOLBAR         "Скрыть/показать панель инструментов"
-    ID_VIEW_SEARCH_BAR      "Скрыть/показать панель поиска"
-    ID_VIEW_STATUS_BAR      "Скрыть/показать строку состояния"
+    ID_VIEW_MENU            "Показать/скрыть меню"
+    ID_VIEW_TABS            "Показать/скрыть вкладки"
+    ID_VIEW_TOOLBAR         "Показать/скрыть панель инструментов"
+    ID_VIEW_SEARCH_BAR      "Показать/скрыть панель поиска"
+    ID_VIEW_STATUS_BAR      "Показать/скрыть строку состояния"
     ID_SWITCH_TRANSPARENCY  "Включить или выключить прозрачность"
 END
 
@@ -921,12 +925,15 @@ BEGIN
     ID_SPLIT_SWAP           "Поменять местами с предыдущим\nПоменять местами"
 
     ID_CLONE_IN_NEW_TAB     "Клонировать текущее окно в новую вкладку\nКлонировать в новую вкладку"
-    ID_VIEW_FULLSCREEN      "Переключиться в полноэкранный режим\nВо весь экран"
-    ID_VIEW_ALWAYS_ON_TOP   "Переключиться в режим Поверх всех окон\nПоверх всех окон"
+    ID_MOVE_IN_NEW_TAB      "Move the current view in a new tab\nMove in New Tab"
+    ID_VIEW_FULLSCREEN      "Переключиться в полноэкранный режим\nНа весь экран"
+    ID_VIEW_ALWAYS_ON_TOP   "Переключиться в режим поверх всех окон\nПоверх всех окон"
     ID_GROUP_ALL            "Объединить все терминалы так, что входные данные одного из них направлялись всем\nГруппировать все"
     ID_UNGROUP_ALL          "Удалить объединение всех терминалов\nРазгруппировать все"
     ID_GROUP_TAB            "Объединить все терминалы вкладки так, что входные данные одного из них направлялись всем\nГруппировать вкладку"
     ID_UNGROUP_TAB          "Удалить объединение всех терминалов текущей вкладки\nРазгруппировать вкладку"
+
+    ID_CLONE_TAB            "Clone the whole current tab\nClone Tab"
 END
 
 STRINGTABLE
@@ -937,7 +944,7 @@ BEGIN
     IDS_SNIPPET_DESCRIPTION "Описание"
     IDS_SNIPPET_CODE        "Код"
     IDS_SNIPPET_VERSION     "Версия"
-    IDC_SNIPPET_INFORMATION "Подробно"
+    IDC_SNIPPET_INFORMATION "Подробно о фрагменте"
     IDC_SNIPPET_EDIT        "Правка"
 END
 
@@ -963,29 +970,29 @@ BEGIN
     IDS_CAPTION_ERROR "Ошибка"
     IDS_ERR_CANT_START_SHELL "Невозможно запустить %1% (причина:%2%)!"
     IDS_ERR_CANT_START_SHELL_AS_USER "Невозможно запустить  %1% от имени %2% (причина:%3%)!"
-    IDS_ERR_DLL_INJECTION_FAILED "Инжект DLL был неудачным (причина: %1%)!"
-    IDS_ERR_DLL_HOOK_MISSING "Хук DLL %1% неудачен!"
-    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "Невозможно создать расшаренные объекты (причина:%1%)!"
-    IDS_ERR_CANT_START_SHELL_AS_ADMIN "Невозможно запустить %1% %2% от администратора (причина:%3%)!"
+    IDS_ERR_DLL_INJECTION_FAILED "Внедрение DLL было неудачным (причина: %1%)!"
+    IDS_ERR_DLL_HOOK_MISSING "Перехват DLL %1% был неудачным!"
+    IDS_ERR_CREATE_SHARED_OBJECTS_FAILED "Невозможно создать общие объекты (причина:%1%)!"
+    IDS_ERR_CANT_START_SHELL_AS_ADMIN "Невозможно запустить %1% %2% от имени администратора (причина: %3%)!"
     IDS_ERR_CANT_GET_ELEVATION_TYPE "Невозможно получить повышенный уровень (причина:%1%)!"
-    IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте Диспетчер задач для завершения его)"
+    IDS_ERR_TAB_CREATE_FAILED "Ошибка при открытии вкладки %1%!\nПроцесс %2% может быть всё ещё запущен (используйте диспетчер задач для его завершения)"
     IDS_ERR_IS_NOT_A_WIN32_CONSOLE "%1% не является консольным приложением Win32!"
     IDS_ERR_CANT_GET_USER "Невозможно определить текущего пользователя (причина: %1%)!"
-    IDS_ERR_XML_PARSING "Ошибка парсинга XML (%1$#x) в файле %2% в строке %3% в колонке %4%: %5%"
-    IDS_ERR_UNDEFINED_TAB "%1%: undefined tab"
-    IDS_ERR_CONSOLEZ_HOOKED "ConsoleZ launched ConsoleZ as shell. To prevent an infinite loop, ConsoleZ instance will be terminated."
+    IDS_ERR_XML_PARSING "Ошибка анализа XML (%1$#x) в файле %2% в строке %3% в колонке %4%: %5%"
+    IDS_ERR_UNDEFINED_TAB "%1%: неопределённая вкладка"
+    IDS_ERR_CONSOLEZ_HOOKED "ConsoleZ запустил ConsoleZ как оболочку. Чтобы предотвратить зацикливание, процесс ConsoleZ будет завершён."
 END
 
 STRINGTABLE
 BEGIN
     MSG_SETTINGS_INVALID_BUFFER_ROWS
-                            "Высота буфера окна задана не правильно! Значение высоты должно быть между %1% и %2%."
+                            "Высота буфера окна задана неправильно! Значение высоты должно быть между %1% и %2%."
     MSG_SETTINGS_INVALID_BUFFER_COLUMNS
-                            "Ширина буфера окна задана не правильно! Значение ширины должно быть между %1% и %2%."
+                            "Ширина буфера окна задана неправильно! Значение ширины должно быть между %1% и %2%."
     MSG_SETTINGS_INVALID_ROWS
-                            "Высота окна задана не правильно! Значение высоты должно быть между %1% и %2%."
+                            "Высота окна задана неправильно! Значение высоты должно быть между %1% и %2%."
     MSG_SETTINGS_INVALID_COLUMNS
-                            "Ширина окна задана не правильно! Значение ширины должно быть между %1% и %2%."
+                            "Ширина окна задана неправильно! Значение ширины должно быть между %1% и %2%."
     MSG_SETTINGS_HOTKEY_ALREADY_ASSIGNED
                             "Клавиша уже ассоциирована с командой '%1%'!"
     MSG_SETTINGS_HOTKEY_NONE
@@ -995,19 +1002,19 @@ BEGIN
     MSG_SETTINGS_DELETE_TAB
                             "Удалить выделенные вкладки?"
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR
-                            "Не удается сохранить конфигурацию. Убедитесь, что у вас есть право на запись в %1%."
+                            "Не удаётся сохранить конфигурацию. Убедитесь, что у вас есть право на запись в %1%."
     MSG_SETTINGS_CONFIG_FILE_WRITE_ERROR_EXEDIR
-                            "Рекомендуется сохранять настройки в директорию пользователя."
+                            "Рекомендуется сохранять настройки в папку пользователя."
     MSG_SETTINGS_INIT_DIR
-                            "Выберите стартоую папку"
+                            "Выберите стартовую папку"
     MSG_SETTINGS_ICON_FILES
                             "Файлы иконок (*.ico)|*.ico||"
     MSG_SETTINGS_EXECUTABLE_FILES
-                            "Исполнительные файлы (*.exe)|*.exe|Командные файлы (*.bat;*.cmd)|*.bat;*.cmd|Все файлы (*.*)|*.*||"
+                            "Исполняемые файлы (*.exe)|*.exe|Командные файлы (*.bat;*.cmd)|*.bat;*.cmd|Все файлы (*.*)|*.*||"
     MSG_SETTINGS_EXECUTABLE_FILES_AND_LINKS
-                            "Исполнительные файлы (*.exe)|*.exe|Ярлыки (*.lnk)|*.lnk|Командные файлы (*.bat;*.cmd)|*.bat;*.cmd|Все файлы (*.*)|*.*||"
+                            "Исполняемые файлы (*.exe)|*.exe|Ярлыки (*.lnk)|*.lnk|Командные файлы (*.bat;*.cmd)|*.bat;*.cmd|Все файлы (*.*)|*.*||"
     MSG_SETTINGS_IMAGE_FILES
-                            "Все файлы рисунков|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Точечные рисункиs (*.bmp;*.dib)|*.bmp;*.dib|GIF (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|PNG (*.png)|*.png|Все файлы (*.*)|*.*||"
+                            "Все файлы изображений|*.bmp;*.dib;*.gif;*.jpeg;*.jpg;*.png|Точечные изображения (*.bmp;*.dib)|*.bmp;*.dib|GIF (*.gif)|*.gif|JPEG (*.jpeg;*.jpg)|*.jpeg;*.jpg|PNG (*.png)|*.png|Все файлы (*.*)|*.*||"
     MSG_SETTINGS_CONFIG_FILES
                             "Конфигурационные файлы (*.xml)|*.xml|Все файлы (*.*)|*.*||"
 
@@ -1020,13 +1027,13 @@ BEGIN
     MSG_MAINFRAME_EXIT_FULLSCREEN
                             "Выход из полноэкранного режима"
     MSG_MAINFRAME_SYNTAX_ERROR
-                            "синтексическая ошибка в позиции %1%"
+                            "синтаксическая ошибка в позиции %1%"
     MSG_MAINFRAME_WORKSPACE_FILES
-                            "ConsoleZ workspace|*.workspace||"
+                            "Рабочее пространство ConsoleZ|*.workspace||"
 
     MSG_TABVIEW_RUNAS       "Запустить от имени другого пользователя"
 
-    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright (c) 2011-2017\nChristophe Bucher\n\nмодифицированная\nверсия\nConsole 2\nMarko Bozikovic\nперевод koros aka ya158\nkoros@ya.ru"
+    MSG_ABOUT               "\nConsoleZ\n%1%\n\nCopyright © 2011-2018\nChristophe Bucher\n\nмодифицированная\nверсия\nConsole 2\nMarko Bozikovic\nперевод koros@ya.ru,\nsolokot@gmail.com"
 END
 
 STRINGTABLE
@@ -1065,8 +1072,9 @@ BEGIN
     IDS_MOVE_TAB_LEFT        "Переместить текущую вкладку налево"
     IDS_MOVE_TAB_RIGHT       "Переместить текущую вкладку направо"
 
-    IDS_FILE_CLOSE_TAB       "Закрть вкладку"
+    IDS_FILE_CLOSE_TAB       "Закрыть вкладку"
     IDS_EDIT_RENAME_TAB      "Переименовать вкладку"
+    IDS_CLONE_TAB            "Clone tab"
 
     IDS_NEXT_VIEW            "Перейти на следующее окно"
     IDS_PREV_VIEW            "Перейти на предыдущее окно"
@@ -1077,7 +1085,7 @@ BEGIN
 
     IDS_DEC_HORIZ_SIZE       "Уменьшить размер окна по горизонтали"
     IDS_INC_HORIZ_SIZE       "Увеличить размер окна по горизонтали"
-    IDS_DEC_VERT_SIZE        "меньшить размер окна по вертикали"
+    IDS_DEC_VERT_SIZE        "Уменьшить размер окна по вертикали"
     IDS_INC_VERT_SIZE        "Увеличить размер окна по вертикали"
 
     IDS_CLOSE_VIEW           "Закрыть окно"
@@ -1085,14 +1093,15 @@ BEGIN
     IDS_ATTACH_CONSOLES      "Прикрепить консоли"
     IDS_LOAD_WORKSPACE       "Загрузить рабочее пространство"
     IDS_SAVE_WORKSPACE       "Сохранить рабочее пространство"
-    IDS_FORWARD_MOUSE_EVENTS "Вкл\Выкл отслеживание клавиш и колесика мыши"
-    IDS_MAXIMIZE_VIEW        "Maximize view"
-    IDS_RESTORE_VIEW         "Restore view"
+    IDS_FORWARD_MOUSE_EVENTS "Вкл./выкл. отслеживание клавиш и колеса мыши"
+    IDS_MAXIMIZE_VIEW        "Развернуть на весь экран"
+    IDS_RESTORE_VIEW         "Восстановить размер"
     IDS_SPLIT_HORIZ          "Разделить по горизонтали"
     IDS_SPLIT_VERT           "Разделить по вертикали"
     IDS_SPLIT_SWAP           "Поменять местами с предыдущим"
     IDS_CLONE_IN_NEW_TAB     "Клонировать окно в новую вкладку"
-    IDS_VIEW_FULLSCREEN      "Во весь экран"
+    IDS_MOVE_IN_NEW_TAB      "Move view in new tab"
+    IDS_VIEW_FULLSCREEN      "На весь экран"
     IDS_VIEW_ALWAYS_ON_TOP   "Поверх всех окон"
     IDS_VIEW_ZOOM_100        "Масштаб 100%"
     IDS_VIEW_ZOOM_INC        "Увеличить масштаб"
@@ -1124,14 +1133,14 @@ IDS_FIND                 "Найти текст"
 IDS_SEARCH_NEXT          "Найти следующее"
 IDS_SEARCH_PREV          "Найти предыдущее"
 
-IDS_SWITCH_TRANSPARENCY  "Вкл./Выкл. прозрачность"
+IDS_SWITCH_TRANSPARENCY  "Вкл./выкл. прозрачность"
 
 IDS_DUMP_BUFFER          "Дамп буфера экрана"
 
 IDS_SHOW_CONTEXT_MENU_1  "Показать контекстное меню №1"
 IDS_SHOW_CONTEXT_MENU_2  "Показать контекстное меню №2"
 IDS_SHOW_CONTEXT_MENU_3  "Показать контекстное меню №3"
-ID_SHOW_CONTEXT_MENU_SNIPPETS "Показать контекстное меню сниппетов"
+ID_SHOW_CONTEXT_MENU_SNIPPETS "Показать контекстное меню фрагментов"
 
 IDS_SEND_CTRL_C          "Отправить CTRL-C"
 
@@ -1146,14 +1155,14 @@ IDS_EXTERNAL_COMMAND_8   "Внешняя команда 8"
 IDS_EXTERNAL_COMMAND_9   "Внешняя команда 9"
 IDS_EXTERNAL_COMMAND_10  "Внешняя команда 10"
 
-IDS_GLOBAL_ACTIVATE      "Переключиться на ConsoleZ (глобальная)"
+IDS_GLOBAL_ACTIVATE      "Переключиться на ConsoleZ (глобально)"
 
 ID_TEXT_SELECTION_LEFT_KEY        "Выделить текст левее"
 ID_TEXT_SELECTION_RIGHT_KEY       "Выделить текст правее"
 ID_TEXT_SELECTION_TOP_KEY         "Выделить текст выше"
 ID_TEXT_SELECTION_BOTTOM_KEY      "Выделить текст ниже"
-ID_TEXT_SELECTION_HOME_KEY        "Выделить тескт до начала"
-ID_TEXT_SELECTION_END_KEY         "Выделить тескт до конца"
+ID_TEXT_SELECTION_HOME_KEY        "Выделить текст до начала"
+ID_TEXT_SELECTION_END_KEY         "Выделить текст до конца"
 ID_TEXT_SELECTION_PAGEUP_KEY      "Выделить страницу текста вверх"
 ID_TEXT_SELECTION_PAGEDOWN_KEY    "Выделить страницу текста вниз"
 ID_COLUMN_SELECTION_LEFT_KEY      "Выделить колонку левее"
@@ -1168,7 +1177,7 @@ ID_COLUMN_SELECTION_PAGEDOWN_KEY  "Выделить колонку на стра
 IDS_TABBINGFRAMEWORK_TIPS_SCROLLRIGHT "Прокрутить вправо"
 IDS_TABBINGFRAMEWORK_TIPS_SCROLLLEFT  "Прокрутить влево"
 IDS_TABBINGFRAMEWORK_TIPS_CLOSE       "Закрыть"
-IDS_TABBINGFRAMEWORK_TIPS_NEWTAB      "New Tab"
+IDS_TABBINGFRAMEWORK_TIPS_NEWTAB      "Новая вкладка"
 END
 
 STRINGTABLE
@@ -1182,7 +1191,7 @@ IDS_MOUSE_LINK           "Открыть ссылку"
 IDS_MOUSE_MENU1          "Контекстное меню №1"
 IDS_MOUSE_MENU2          "Контекстное меню №2"
 IDS_MOUSE_MENU3          "Контекстное меню №3"
-IDS_MOUSE_SNIPPETS       "Контекстное меню сниппетов"
+IDS_MOUSE_SNIPPETS       "Контекстное меню фрагментов"
 END
 
 STRINGTABLE
@@ -1192,9 +1201,9 @@ IDS_SETTINGS_APPEARANCE    "Внешний вид"
 IDS_SETTINGS_STYLES        "Стили"
 IDS_SETTINGS_TRANSPARENCY  "Прозрачность"
 IDS_SETTINGS_FONT          "Шрифт"
-IDS_SETTINGS_FULLSCREEN    "Во весь экран"
+IDS_SETTINGS_FULLSCREEN    "На весь экран"
 IDS_SETTINGS_BEHAVIOR      "Поведение"
-IDS_SETTINGS_MORE          "Еще..."
+IDS_SETTINGS_MORE          "Ещё..."
 IDS_SETTINGS_HOTKEYS       "Горячие клавиши"
 IDS_SETTINGS_MOUSE         "Мышь"
 IDS_SETTINGS_TABS          "Вкладки"
@@ -1203,7 +1212,7 @@ IDS_SETTINGS_MOUSE_ACTION  "Кнопки мыши"
 IDS_SETTINGS_TAB_NAME      "Имя вкладки"
 IDS_SETTINGS_MAIN          "Главная"
 IDS_SETTINGS_BACKGROUND    "Фон"
-IDS_SETTINGS_COLORS_CURSOR "Цвета && Курсор"
+IDS_SETTINGS_COLORS_CURSOR "Цвета и курсор"
 IDS_SETTINGS_ENVIRONMENT   "Переменные окружения"
 IDS_SETTINGS_HOTKEY        "Клавиша"
 IDS_SETTINGS_VARIABLE      "Переменная"
@@ -1214,15 +1223,15 @@ END
 
 STRINGTABLE
 BEGIN
-IDC_COMBO_CURSOR             "XTerm;Мигающий прямоугольник;Прямоугольник;Пульсирующий прямоугольник;Мигающая верт. линия;Горизонтальная линия;Перемещающаяся гориз. линия;Перемещающаяся верт. линия;Мигающая рамка;Рамка;Пульсирующая рамка;Исчезающий прямоугольник;Подчеркивание;XTerm2;Мигающая гориз. линия;"
+IDC_COMBO_CURSOR             "XTerm;Мигающий прямоугольник;Прямоугольник;Пульсирующий прямоугольник;Мигающая верт. линия;Горизонтальная линия;Перемещающаяся гориз. линия;Перемещающаяся верт. линия;Мигающая рамка;Рамка;Пульсирующая рамка;Исчезающий прямоугольник;Подчёркивание;XTerm2;Мигающая гориз. линия;"
 IDC_COMBO_DOCKING            "Нет;Сверху слева;Сверху справа;Внизу слева;Внизу справа;Сверху в центре;Внизу в центре;Слева в центре;Справа в центре;"
-IDC_COMBO_ZORDER             "Обычный;Поверх всех окон;Всегда внизу;Закрепить на десктопе;"
+IDC_COMBO_ZORDER             "Обычный;Поверх всех окон;Всегда внизу;Закрепить на экране;"
 IDC_COMBO_SMOOTHING          "Обычный;Нет;ClearType;Natural ClearType;Сглаженный"
-IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Четвертая;Пятая;"
+IDC_COMBO_BUTTONS            "Нет;Левая;Правая;Средняя;Четвёртая;Пятая;"
 IDC_COMBO_BK_POS             "По центру;Растянуть;Замостить;По размеру;Заполнение;"
 IDC_COMBO_FULLSCREEN_MONITOR "Текущий;"
 IDC_COMBO_BASE_PRIORITY      "Низкий;Ниже нормального;Нормальный;Выше нормального;Высокий;Реального времени;"
-IDC_COMBO_STATE              "Нормальное окно;Свернутое;Развернутое;Во весь экран;"
+IDC_COMBO_STATE              "Нормальное окно;Свёрнутое;Развёрнутое;На весь экран;"
 END
 
 #endif    // English (United States) resources

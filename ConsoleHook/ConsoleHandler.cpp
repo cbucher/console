@@ -1198,11 +1198,9 @@ void ConsoleHandler::CopyConsoleText()
 {
 	try
 	{
-		ClipboardHelper clipboard;
-
 		GET_STD_OUT_READ_ONLY
 
-			std::unique_ptr<ClipboardData> clipboardDataPtr[2];
+		std::unique_ptr<ClipboardData> clipboardDataPtr[2];
 		size_t clipboardDataCount = 0;
 		clipboardDataPtr[clipboardDataCount++].reset(new ClipboardDataUnicode());
 		if( m_consoleCopyInfo->bRTF )
@@ -1213,10 +1211,14 @@ void ConsoleHandler::CopyConsoleText()
 		else
 			CopyConsoleTextLine(hStdOut, clipboardDataPtr, clipboardDataCount);
 
-		clipboard.empty();
+		{
+			ClipboardHelper clipboard;
 
-		for( size_t clipboardDataIndex = 0; clipboardDataIndex < clipboardDataCount; clipboardDataIndex++ )
-			clipboardDataPtr[clipboardDataIndex]->Publish(clipboard);
+			clipboard.empty();
+
+			for( size_t clipboardDataIndex = 0; clipboardDataIndex < clipboardDataCount; clipboardDataIndex++ )
+				clipboardDataPtr[clipboardDataIndex]->Publish(clipboard);
+		}
 	}
 	catch( std::exception& e )
 	{

@@ -21,33 +21,6 @@ class MainFrame;
 
 //////////////////////////////////////////////////////////////////////////////
 
-struct ConsoleViewCreate
-{
-	enum TYPE
-	{
-		CREATE,
-		ATTACH,
-		LOAD_WORKSPACE
-	} type;
-
-	union
-	{
-		UserCredentials* userCredentials;
-		DWORD            dwProcessId;
-	} u;
-
-	ConsoleOptions consoleOptions;
-
-	std::shared_ptr<TabData> tabDataShell;
-
-	CComPtr<IXMLDOMElement> pTabElement;
-};
-
-//////////////////////////////////////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////////////////////////////
-
 class ConsoleView
 	: public CWindowImpl<ConsoleView, CWindow, CWinTraits<WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VSCROLL | WS_HSCROLL, 0> >
 	, public CursorCharDrawer
@@ -311,6 +284,8 @@ class ConsoleView
 		std::chrono::high_resolution_clock::time_point m_timePoint1;
 #endif // CONSOLEZ_CHRONOS
 
+		std::chrono::system_clock::time_point m_startTime;
+
 // static members
 private:
 
@@ -339,6 +314,36 @@ private:
   static DWORD          m_dwFontSize;
   static DWORD          m_dwFontZoom;
   static DWORD          m_dwScreenDpi;
+};
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+struct ConsoleViewCreate
+{
+	enum TYPE
+	{
+		CREATE,
+		ATTACH,
+		LOAD_WORKSPACE,
+		MOVE
+	} type;
+
+	union
+	{
+		UserCredentials* userCredentials;
+		DWORD            dwProcessId;
+	} u;
+
+	ConsoleOptions consoleOptions;
+
+	std::shared_ptr<TabData> tabDataShell;
+
+	CComPtr<IXMLDOMElement> pTabElement;
+
+	std::shared_ptr<ConsoleView> consoleView;
 };
 
 //////////////////////////////////////////////////////////////////////////////

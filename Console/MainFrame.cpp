@@ -151,6 +151,11 @@ void MainFrame::ParseCommandLine
 				}
 			}
 		}
+		else if( std::wstring(argv[i]) == std::wstring(L"-attach") )
+		{
+			// attach consoles
+			commandLineOptions.bAttachConsoles = true;
+		}
 	}
 
 	// make sure that startupTabTitles, startupDirs, and startupShellArgs are at least as big as startupTabs
@@ -231,13 +236,29 @@ BOOL MainFrame::PreTranslateMessage(MSG* pMsg)
 		return FALSE;
 	}
 
-	if( m_hWnd && !m_acceleratorTable.IsNull() && m_acceleratorTable.TranslateAccelerator(m_hWnd, pMsg) ) return TRUE;
+	TRACE_KEY(L"MainFrame::PreTranslateMessage Msg translated: 0x%04X, wParam: 0x%08X, lParam: 0x%08X\n", pMsg->message, pMsg->wParam, pMsg->lParam);
 
-	if( CTabbedFrameImpl<MainFrame>::PreTranslateMessage(pMsg) ) return TRUE;
+	if( m_hWnd && !m_acceleratorTable.IsNull() && m_acceleratorTable.TranslateAccelerator(m_hWnd, pMsg) )
+	{
+		TRACE_KEY(L"m_acceleratorTable.TranslateAccelerator returns TRUE\n");
+		return TRUE;
+	}
+
+	if( CTabbedFrameImpl<MainFrame>::PreTranslateMessage(pMsg) )
+	{
+		TRACE_KEY(L"CTabbedFrameImpl<MainFrame>::PreTranslateMessage returns TRUE\n");
+		return TRUE;
+	}
 
 	if (!m_activeTabView) return FALSE;
 
-	return m_activeTabView->PreTranslateMessage(pMsg);
+	if( m_activeTabView->PreTranslateMessage(pMsg) )
+	{
+		TRACE_KEY(L"m_activeTabView->PreTranslateMessage returns TRUE\n");
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -265,6 +286,19 @@ LRESULT MainFrame::CreateInitialTabs
 	bool bAtLeastOneStarted = false;
 
 	TabSettings&	tabSettings = g_settingsHandler->GetTabSettings();
+
+	// attach consoles
+	if( commandLineOptions.bAttachConsoles )
+	{
+		::EnumWindows(MainFrame::ConsoleEnumWindowsProc, reinterpret_cast<LPARAM>(this));
+
+		bAtLeastOneStarted = !m_tabs.empty();
+
+		// if no tabs defined in command line
+		// then stop here
+		if( commandLineOptions.startupTabs.empty() )
+			return bAtLeastOneStarted ? 0 : -1;
+	}
 
 	// create initial console window(s)
 	if (commandLineOptions.startupTabs.empty() && commandLineOptions.startupWorkspaces.empty())
@@ -1516,7 +1550,7 @@ LRESULT MainFrame::OnConsoleClosed(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam
 	for (TabViewMap::iterator it = m_tabs.begin(); it != m_tabs.end(); ++it)
 	{
 		bool boolTabClosed;
-		if( it->second->CloseView(reinterpret_cast<HWND>(wParam), false, boolTabClosed) )
+		if( it->second->CloseView(reinterpret_cast<HWND>(wParam), false, true, boolTabClosed) )
 		{
 			if( boolTabClosed )
 				CloseTab(it->second->m_hWnd);
@@ -1676,6 +1710,7 @@ std::wstring MainFrame::FormatTitle(std::wstring strFormat, TabView * tabView, s
 			case L'P': layers.top()->str += std::to_wstring(consoleView->GetConsoleHandler().GetLastProcessId()); break;
 			case L'n': layers.top()->str += std::to_wstring(nTabNumber); break;
 			case L'i': layers.top()->str += std::to_wstring(tabView->GetTabData()->nIndex); break;
+			case L'I': layers.top()->str += GetInstanceName(); break;
 			case L'm': layers.top()->str += strMainTitle; break;
 			case L't': layers.top()->str += tabView->GetTitle(); break;
 			case L's': if( !bShellTitle ) { bShellTitle = true; strShellTitle = consoleView->GetConsoleCommand(); }
@@ -2466,7 +2501,7 @@ BOOL CALLBACK MainFrame::ConsoleEnumWindowsProc(HWND hwnd, LPARAM lParam)
 			consoleViewCreate.type = ConsoleViewCreate::ATTACH;
 			consoleViewCreate.u.dwProcessId = dwProcessId;
 
-			reinterpret_cast<MainFrame*>(lParam)->CreateNewConsole(&consoleViewCreate, tabData);
+			reinterpret_cast<MainFrame*>(lParam)->CreateNewTab(&consoleViewCreate, tabData);
 		}
 	}
 #ifdef _DEBUG
@@ -2587,7 +2622,7 @@ LRESULT MainFrame::OnCloseView(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/,
 	if( m_activeTabView )
 	{
 		bool boolTabClosed;
-		m_activeTabView->CloseView(0, wID == ID_DETACH_VIEW, boolTabClosed);
+		m_activeTabView->CloseView(0, wID == ID_DETACH_VIEW, true, boolTabClosed);
 		if( boolTabClosed )
 			CloseTab(m_activeTabView->m_hWnd);
 	}
@@ -2745,7 +2780,39 @@ LRESULT MainFrame::OnCloneInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hW
 		consoleViewCreate.consoleOptions.strInitialDir = activeConsoleView->GetConsoleHandler().GetCurrentDirectory();
 	}
 
-	CreateNewConsole(&consoleViewCreate, tabData);
+	CreateNewTab(&consoleViewCreate, tabData);
+
+	return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnMoveInNewTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	MutexLock viewMapLock(m_tabsMutex);
+
+	if( !m_activeTabView ) return 0;
+
+	if( m_activeTabView->GetViewsCount() < 2 ) return 0;
+
+	std::shared_ptr<ConsoleView> activeConsoleView = m_activeTabView->GetActiveConsole(_T(__FUNCTION__));
+	if( !activeConsoleView ) return 0;
+
+	std::shared_ptr<TabData> tabData = activeConsoleView->GetTabData();
+	if( !tabData->bCloneable ) return 0;
+
+	bool boolTabClosed;
+	m_activeTabView->CloseView(0, false, false, boolTabClosed);
+
+	ConsoleViewCreate consoleViewCreate;
+	consoleViewCreate.type = ConsoleViewCreate::MOVE;
+	consoleViewCreate.consoleView = activeConsoleView;
+	consoleViewCreate.consoleOptions = activeConsoleView->GetOptions();
+
+	CreateNewTab(&consoleViewCreate, tabData);
 
 	return 0;
 }
@@ -2802,6 +2869,45 @@ LRESULT MainFrame::OnUngroupTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndC
   if (!m_activeTabView) return 0;
   m_activeTabView->Group(false);
   return 0;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+
+LRESULT MainFrame::OnCloneTab(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+	if( !m_activeTabView ) return 0;
+
+	CComPtr<IXMLDOMDocument> pSettingsDocument;
+	CComPtr<IXMLDOMElement> pTabElement;
+
+	HRESULT hr = pSettingsDocument.CoCreateInstance(__uuidof(DOMDocument));
+	if( FAILED(hr) || (pSettingsDocument.p == nullptr) ) return 1;
+
+	VARIANT_BOOL bLoadSuccess = VARIANT_FALSE;
+	hr = pSettingsDocument->loadXML(CComBSTR(L"<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\r\n<Tab/>"), &bLoadSuccess);
+	if( FAILED(hr) || (!bLoadSuccess) ) return 1;
+
+	hr = pSettingsDocument->get_documentElement(&pTabElement);
+	if( FAILED(hr) ) return FALSE;
+
+	if( !m_activeTabView->SaveWorkspace(pTabElement) ) return 1;
+
+	std::wstring strTabTitle;
+	XmlHelper::GetAttribute(pTabElement, CComBSTR(L"Title"), strTabTitle, std::wstring());
+
+	ConsoleViewCreate consoleViewCreate;
+	consoleViewCreate.type = ConsoleViewCreate::LOAD_WORKSPACE;
+	consoleViewCreate.u.userCredentials = nullptr;
+	consoleViewCreate.pTabElement = pTabElement;
+
+	XmlHelper::GetAttribute(pTabElement, CComBSTR(L"Name"), consoleViewCreate.consoleOptions.strTitle, strTabTitle);
+
+	CreateNewTab(&consoleViewCreate, m_activeTabView->GetTabData());
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -3594,7 +3700,7 @@ bool MainFrame::CreateNewConsole(DWORD dwTabIndex, const ConsoleOptions& console
 
 	std::shared_ptr<TabData> tabData = g_settingsHandler->GetTabSettings().tabDataVector[dwTabIndex];
 
-	return CreateNewConsole(&consoleViewCreate, tabData);
+	return CreateNewTab(&consoleViewCreate, tabData);
 }
 
 bool MainFrame::CreateSafeConsole()
@@ -3606,10 +3712,10 @@ bool MainFrame::CreateSafeConsole()
 	std::shared_ptr<TabData> tabData(new TabData());
 	tabData->strShell = L"%ComSpec%";
 
-	return CreateNewConsole(&consoleViewCreate, tabData);
+	return CreateNewTab(&consoleViewCreate, tabData);
 }
 
-bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData)
+bool MainFrame::CreateNewTab(ConsoleViewCreate* consoleViewCreate, std::shared_ptr<TabData> tabData, int *nTab)
 {
 	MutexLock	tabMapLock(m_tabsMutex);
 
@@ -3653,9 +3759,11 @@ bool MainFrame::CreateNewConsole(ConsoleViewCreate* consoleViewCreate, std::shar
 		nImageIndex = tabData->nImageIndex;
 	}
 
-	AddTab(hwndTabView, cstrTabTitle, nImageIndex);
-
+	int nTabView = AddTab(hwndTabView, cstrTabTitle, nImageIndex);
 	DisplayTab(hwndTabView, FALSE);
+
+	if( nTab ) *nTab = nTabView;
+
 	::SetForegroundWindow(m_hWnd);
 
   if (m_tabs.size() > 1)
@@ -3762,6 +3870,7 @@ void MainFrame::UpdateTabsMenu()
 	// build tabs menu
 	TabDataVector&  tabDataVector = g_settingsHandler->GetTabSettings().tabDataVector;
 	WORD            wId           = ID_NEW_TAB_1;
+	std::wstring    strLastSubMenuTitle;
 
 	for (auto it = tabDataVector.begin(); it != tabDataVector.end(); ++it, ++wId)
 	{
@@ -3770,6 +3879,16 @@ void MainFrame::UpdateTabsMenu()
 		auto hotK = g_settingsHandler->GetHotKeys().commands.get<HotKeys::commandID>().find(wId);
 
 		std::wstring strTitle = (*it)->strTitle;
+		std::wstring strSubMenuTitle;
+
+		// search for submenu seprator '/'
+		size_t pos = strTitle.find_first_of(L'/');
+		if( pos != strTitle.npos )
+		{
+			strSubMenuTitle = strTitle.substr(0, pos);
+			strTitle = strTitle.substr(pos + 1);
+		}
+
 		if( hotK != g_settingsHandler->GetHotKeys().commands.get<HotKeys::commandID>().end() )
 		{
 			strTitle += L"\t";
@@ -3781,7 +3900,31 @@ void MainFrame::UpdateTabsMenu()
 		subMenuItem.dwTypeData  = const_cast<wchar_t*>(strTitle.c_str());
 		subMenuItem.cch         = static_cast<UINT>(strTitle.length());
 
-		m_tabsMenu.InsertMenuItem(wId-ID_NEW_TAB_1, TRUE, &subMenuItem);
+		if( strSubMenuTitle.empty() )
+		{
+			strLastSubMenuTitle.clear();
+			m_tabsMenu.InsertMenuItem(m_tabsMenu.GetMenuItemCount(), TRUE, &subMenuItem);
+		}
+		else
+		{
+			if( strSubMenuTitle.compare(strLastSubMenuTitle) == 0 )
+			{
+				CMenuHandle subMenu = m_tabsMenu.GetSubMenu(m_tabsMenu.GetMenuItemCount() - 1);
+				subMenu.InsertMenuItemW(subMenu.GetMenuItemCount(), TRUE, &subMenuItem);
+			}
+			else
+			{
+				CMenu	subMenu;
+				subMenu.CreateMenu();
+				subMenu.InsertMenuItemW(0, TRUE, &subMenuItem);
+				m_tabsMenu.InsertMenu(m_tabsMenu.GetMenuItemCount(), MF_BYPOSITION, subMenu.Detach(), strSubMenuTitle.c_str());
+				strLastSubMenuTitle = strSubMenuTitle;
+			}
+		}
+
+		CString str;
+		m_tabsMenu.GetMenuString(0, str, MF_BYPOSITION);
+		str += std::to_wstring(m_tabsMenu.GetMenuItemCount()).c_str();
 
 		m_CmdBar.RemoveImage(wId);
 		HICON hiconMenu = (*it)->GetMenuIcon(g_settingsHandler->GetConsoleSettings().strShell);
@@ -5651,6 +5794,8 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 	CComPtr<IXMLDOMNodeList> xmlNodeList;
 	if( FAILED(xmlElementWorksapce->selectNodes(CComBSTR(L"/ConsoleZWorkspace/Tab"), &xmlNodeList)) ) return false;
 
+	int nTabHasFocus = -1;
+
 	long lListLength;
 	if( FAILED(xmlNodeList->get_length(&lListLength)) ) return false;
 	for( long lNodeIndex = 0; lNodeIndex < lListLength; ++lNodeIndex )
@@ -5663,6 +5808,10 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 		std::wstring strTabTitle;
 		XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"Title"), strTabTitle, std::wstring());
+
+		std::wstring strTabHasFocus;
+		XmlHelper::GetAttribute(xmlElementTab, CComBSTR(L"HasFocus"), strTabHasFocus, std::wstring(L"false"));
+		bool bHasFocus = strTabHasFocus == L"true" || strTabHasFocus == L"1";
 
 		TabSettings& tabSettings = g_settingsHandler->GetTabSettings();
 
@@ -5682,7 +5831,12 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 
 				std::shared_ptr<TabData> tabData = tabSettings.tabDataVector[i];
 
-				if( CreateNewConsole(&consoleViewCreate, tabData) ) bAtLeastOneStarted = true;
+				int nTab = -1;
+				if( CreateNewTab(&consoleViewCreate, tabData, &nTab) )
+				{
+					if( bHasFocus ) nTabHasFocus = nTab;
+					bAtLeastOneStarted = true;
+				}
 
 				found = true;
 				break;
@@ -5694,6 +5848,12 @@ bool MainFrame::LoadWorkspace(const wstring& filename)
 				boost::str(boost::wformat(Helpers::LoadString(IDS_ERR_UNDEFINED_TAB)) % strTabTitle).c_str(),
 				Helpers::LoadString(IDS_CAPTION_ERROR).c_str(),
 				MB_ICONERROR | MB_OK);
+	}
+
+	// give focus to the tab with attribute HasFocus
+	if( bAtLeastOneStarted &&  nTabHasFocus != -1 )
+	{
+		m_TabCtrl.SetCurSel(nTabHasFocus);
 	}
 
 	return bAtLeastOneStarted;
@@ -5723,6 +5883,11 @@ bool MainFrame::SaveWorkspace(const wstring& filename)
 		if( FAILED(XmlHelper::CreateDomElement(pWorkspaceRoot, CComBSTR(L"Tab"), pTabElement)) ) return false;
 
 		if( !m_tabs[m_TabCtrl.GetItem(i)->GetTabView()]->SaveWorkspace(pTabElement) ) return false;
+
+		if( m_TabCtrl.GetCurSel() == i )
+		{
+			XmlHelper::SetAttribute(pTabElement, CComBSTR(L"HasFocus"), 1);
+		}
 	}
 
 	XmlHelper::AddTextNode(pWorkspaceRoot, CComBSTR(L"\r\n"));
