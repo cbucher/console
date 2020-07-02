@@ -5,6 +5,9 @@ ipch/
 help/console.chm
 help/html/changelog.html
 help/xx*
+help/Release
+
+packages/
 
 *.aps
 *.user

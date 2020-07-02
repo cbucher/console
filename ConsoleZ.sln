@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleHook", "ConsoleHook\ConsoleHook.vcxproj", "{69234D74-7133-48FF-8DDB-9901FFC4D7FF}"
 EndProject
@@ -69,6 +69,7 @@ Global
 		{8A25E8AF-CC4A-4145-B878-3D99271562D4}.Release Legacy|x64.ActiveCfg = Release Legacy|Win32
 		{8A25E8AF-CC4A-4145-B878-3D99271562D4}.Release Legacy|x64.Build.0 = Release Legacy|Win32
 		{8A25E8AF-CC4A-4145-B878-3D99271562D4}.Release|Win32.ActiveCfg = Release|Win32
+		{8A25E8AF-CC4A-4145-B878-3D99271562D4}.Release|Win32.Build.0 = Release|Win32
 		{8A25E8AF-CC4A-4145-B878-3D99271562D4}.Release|x64.ActiveCfg = Release|Win32
 		{8A25E8AF-CC4A-4145-B878-3D99271562D4}.Release|x64.Build.0 = Release|Win32
 		{10FD8ABB-2ACC-4EE3-8915-CD0DE3E7809D}.Debug Legacy|Win32.ActiveCfg = Release|Win32
@@ -98,5 +99,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3E6C3B9-4C9D-4AB0-9F31-339CA28DAD84}
 	EndGlobalSection
 EndGlobal

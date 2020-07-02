@@ -425,7 +425,7 @@ void Helpers::LoadCombo(CComboBox& cb, UINT uID)
 {
 	std::wstring combo = Helpers::LoadStringW(uID);
 	std::vector<std::wstring> tok;
-	boost::algorithm::split(tok, combo, /*boost::is_any_of(L";")*/std::bind2nd(std::equal_to<wchar_t>(), L';'));
+	boost::algorithm::split(tok, combo, /*boost::is_any_of(L";")*/std::bind(std::equal_to<wchar_t>(), placeholders::_1, L';'));
 
 	for(auto tok_iter = tok.begin(); tok_iter != tok.end(); ++tok_iter)
 	{

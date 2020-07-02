@@ -975,7 +975,7 @@ void ImageHandler::LoadDesktopWallpaperWin8(MonitorEnumData* pEnumData)
 
 		if(spszWallpaper.m_pData && *spszWallpaper.m_pData)
 		{
-			std::experimental::filesystem::path imagePath(spszWallpaper.m_pData);
+			std::filesystem::path imagePath(spszWallpaper.m_pData);
 
 			// c:\dir1\dir2\dir3\photo.jpg
 			// we check if following files exist (in that order)
@@ -987,13 +987,13 @@ void ImageHandler::LoadDesktopWallpaperWin8(MonitorEnumData* pEnumData)
 			if( iter != imagePath.begin() ) --iter;
 			for(; iter != imagePath.end() && iter != imagePath.begin() && !iter->has_root_path(); --iter )
 			{
-				std::experimental::filesystem::path imagePath2;
+				std::filesystem::path imagePath2;
 				for( auto iter2 = imagePath.begin(); iter2 != imagePath.end(); ++iter2 )
 				{
-					imagePath2.append(*iter2);
+					imagePath2 += *iter2;
 					if( iter2 == iter ) imagePath2.concat(L".ConsoleZ");
 				}
-				if( std::experimental::filesystem::exists(imagePath2) )
+				if( std::filesystem::exists(imagePath2) )
 				{
 					imagePath.swap(imagePath2);
 					break;
