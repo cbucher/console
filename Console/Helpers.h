@@ -14,7 +14,11 @@ struct __case_insensitive_compare
 {
 	bool operator() (const std::wstring& a, const std::wstring& b) const
 	{
-		return (_wcsicmp(a.c_str( ), b.c_str()) < 0);
+		std::wstring a1 = a, b1 = b;
+
+		boost::to_upper(a1);
+		boost::to_upper(b1);
+		return (wcscmp(a1.c_str( ), b1.c_str()) < 0);
 	}
 };
 
