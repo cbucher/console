@@ -1199,7 +1199,7 @@ void ConsoleHandler::CopyConsoleTextColumn(HANDLE hStdOut, std::unique_ptr<Clipb
 			clipboardDataPtr[clipboardDataIndex]->StartRow();
 
 		bool bWrap       = true;
-		bool bTrimSpaces = false;
+		bool bTrimSpaces = m_consoleCopyInfo->bTrimSpaces;
 
 		for (SHORT x = 0; x <= srBuffer.Right - srBuffer.Left; ++x)
 		{
